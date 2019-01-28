@@ -21,7 +21,7 @@ function detectRedirect() {
             loadIssues();
             
             break;
-        case "project_tracking":            
+        case "project_requirements":            
             loadProjectTracking();
             
             break;
@@ -97,6 +97,6 @@ function loadChat() {
 }
 
 function loadProjectTracking() {
-    $('.pageContent').load('views/project_tracking.html');
+    $('.pageContent').load('views/project_requirements.html');
 
 }
