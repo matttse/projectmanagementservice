@@ -30,7 +30,7 @@ function detectRedirect() {
             break;
         default:
             // statements_def
-            $('.pageContent').load('views/home.html')
+            $('.pageContent').load('static/html/home.html')
             redirect = false;
             break;
     }
@@ -66,7 +66,7 @@ function render() {
     $('.body').html(htmlOutput);
 
     //load page into navbar container
-    $('#navigation').load('views/navbar.html');
+    $('#navigation').load('static/html/navbar.html');
 
     //check url anchors
     detectRedirect(function(redirect) {
@@ -82,21 +82,21 @@ function render() {
 }
 
 function loadDashboard() {
-    $('.pageContent').load('views/dashboard.html');
+    $('.pageContent').load('static/html/dashboard.html');
 
 }
 
 function loadIssues() {
-    $('.pageContent').load('views/issues.html');
+    $('.pageContent').load('static/html/issues.html');
 
 }
 
 function loadChat() {
-    $('.pageContent').load('views/chat.html');
+    $('.pageContent').load('static/html/chat.html');
 
 }
 
 function loadProjectTracking() {
-    $('.pageContent').load('views/project_requirements.html');
+    $('.pageContent').load('static/html/project_requirements.html');
 
 }
