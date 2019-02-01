@@ -28,6 +28,9 @@ function detectRedirect() {
         case "chat":
             loadChat();
             break;
+        case "home":
+            loadHome();
+            break;
         default:
             // statements_def
             $('.pageContent').load('static/html/home.html')
@@ -79,6 +82,11 @@ function render() {
         console.log('History navigation, reloading page');
         location.reload(true);
     }
+}
+
+function loadHome() {
+    $('.pageContent').load('static/html/home.html');
+
 }
 
 function loadDashboard() {
