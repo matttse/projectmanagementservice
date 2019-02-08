@@ -9,8 +9,6 @@ A Python Flask MySQL local application
 
 run to ensure libraries are installed
 ```
-git clone https://github.com/matttse/projectmanagementservice.git
-
 pip install flask_login
 pip install flask_bcrypt
 pip install flask_caching
@@ -22,6 +20,9 @@ pip install flask_wtf
 
 bootstrap the environment
 ```
+git clone https://github.com/matttse/projectmanagementservice
+cd projectmanagementservice
+{%- if cookiecutter.use_pipenv == "yes" %}
 pipenv install --dev
 {%- else %}
 pip install -r requirements/dev.txt
