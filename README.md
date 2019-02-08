@@ -1,6 +1,6 @@
 # Project Management Service
 
-A Python Flask MySQL local application
+A Python Flask Postgresql local application
 
 - [Python](https://www.python.org/downloads/) 
 - [Flask](http://flask.pocoo.org/)
