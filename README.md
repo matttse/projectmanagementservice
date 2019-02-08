@@ -6,6 +6,7 @@ A Python Flask MySQL local application
 - [Flask](http://flask.pocoo.org/)
 - [Bootstrap](https://getbootstrap.com/)
 - [Git](https://gist.github.com/derhuerst/1b15ff4652a867391f03)
+- [Postgresql](http://www.postgresqltutorial.com/install-postgresql/)
 
 run to ensure libraries are installed
 ```
