@@ -16,6 +16,7 @@ pip install flask_debugtoolbar
 pip install flask_migrate
 pip install flask_webpack
 pip install flask_wtf
+pip install pipenv
 ```
 
 bootstrap the environment
