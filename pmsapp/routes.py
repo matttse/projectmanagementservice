@@ -1,11 +1,11 @@
 from flask import render_template, url_for, flash, redirect, request
 from pmsapp import app, db, bcrypt
 from pmsapp.forms import RegistrationForm, LoginForm
-from pmsapp.models import User, Post
+from pmsapp.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-posts = [
+project = [
     {
         'author': 'Test Name Autho',
         'title': 'Project',
@@ -22,20 +22,26 @@ posts = [
 
 
 @app.route("/")
-@app.route("/home")
 def home():
-    return render_template('home.html', posts=posts)
+    return render_template('home.html', title=home)
+
+@app.route("/projects")
+def projects():
+    return render_template('projects.html', project=project)
 
 
-@app.route("/about")
-def about():
-    return render_template('about.html', title='About')
+@app.route("/issues")
+def issues():
+    return render_template('issues.html', title='Issues')
 
+@app.route("/chat")
+def chat():
+    return render_template('chat.html', title='Chat')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('projects'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -50,14 +56,14 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('projects'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('projects'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -66,7 +72,7 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('projects'))
 
 
 @app.route("/account")
