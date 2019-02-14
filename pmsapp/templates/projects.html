@@ -3,8 +3,20 @@
   <div class="container mx-auto my-auto py-3 px-1">
     <div id="panelGroup" class="panel-group context" id="accordion" role="tablist" aria-multiselectable="true">
       <!-- LOGS go here -->
-      <div class="alert alert-secondary">No Projects Found</div>
-
+      {% if project %}
+          <article class="media content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="#">{{ project.author }}</a>
+                <small class="text-muted">{{ project.date_posted }}</small>
+              </div>
+              <h2><a class="article-title" href="#">{{ project.title }}</a></h2>
+              <p class="article-content">{{ project.content }}</p>
+            </div>
+          </article>
+      {% else %} 
+        <div class="alert alert-secondary">No Projects Found</div>
+      {% endif %}
 
       {% if current_user.is_authenticated %}
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#project-body" aria-expanded="false" aria-controls="project-body" style="text-transform:none"><strong>Add Project</strong></button>
