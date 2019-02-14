@@ -41,7 +41,7 @@ def chat():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('projects'))
+        return redirect(url_for('/'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -72,7 +72,7 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('projects'))
+    return redirect(url_for('/'))
 
 
 @app.route("/account")
