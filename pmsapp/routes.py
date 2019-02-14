@@ -15,11 +15,7 @@ def home():
 
 @app.route("/projects")
 def projects():
-    projects = Project.query.all()
-    if projects == None:
-        return render_template('projects.html', title='Projects')
-    else:
-        return render_template('projects.html', title='Projects')
+    return render_template('projects.html', title='Projects')
 
 
 @app.route("/issues")
