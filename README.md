@@ -9,7 +9,7 @@ A Python Flask Postgresql local application
 
 run to ensure libraries are installed
 ```
-pip install flask_login flask_bcrypt flask_caching flask_debugtoolbar flask_migrate flask_mail flask_wtf
+pip install flask_login flask_bcrypt flask_caching flask_debugtoolbar flask_migrate flask_mail flask_wtf Flask-SQLAlchemy
 
 ```
 
@@ -23,3 +23,5 @@ deploying to production on server
 ```
 python app.py
 ```
+
+*Note: you may need to initialize the db, please refer to http://flask-sqlalchemy.pocoo.org/2.3/quickstart/ for more information
