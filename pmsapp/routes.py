@@ -8,29 +8,18 @@ from pmsapp.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-project = [
-    {
-        'author': 'Test Name Autho',
-        'title': 'Project',
-        'content': 'First post content',
-        'date_posted': 'blah blah date'
-    },
-    {
-        'author': 'Author 2',
-        'title': 'Project 2',
-        'content': 'Second post content',
-        'date_posted': 'todo date'
-    }
-]
-
-
 @app.route("/")
+@app.route("/home")
 def home():
-    return render_template('home.html', title=home)
+    return render_template('home.html', title='Home')
 
 @app.route("/projects")
 def projects():
-    return render_template('projects.html', project=project)
+    projects = Project.query.all()
+    if projects == None:
+        return render_template('projects.html', title='Projects')
+    else:
+        return render_template('projects.html', title='Projects')
 
 
 @app.route("/issues")
@@ -89,7 +78,7 @@ def save_picture(form_picture):
     i.save(picture_path)
 
     return picture_fn
-    
+
 @app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
@@ -109,3 +98,15 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
+
+@app.route("/project/add", methods=['GET', 'POST'])
+def addProject():
+    form = ProjectForm()
+    if form.validate_on_submit():
+        project = Project(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(project)
+        db.session.commit()
+        flash('Your project has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_project.html', title='New Post',
+                           form=form, legend='New Post')
