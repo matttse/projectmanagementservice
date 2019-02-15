@@ -90,8 +90,16 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-@app.route("/projects")
-def projects():
+@app.route("/projects/all")
+def list_projects():
+    project = Project.query.all()
+    form = ProjectForm()
+    return render_template('projects.html', 
+                           form=form, title='project', legend="New Project", project=project)
+
+@app.route("/projects/<int:project_id>", methods=['GET', 'POST'])
+def add_projects(project_id):    
+    project = Project.query.get_or_404(project_id)
     form = ProjectForm()
     if form.validate_on_submit():
         project = Project(title=form.title.data, content=form.content.data, author=current_user)
@@ -100,7 +108,7 @@ def projects():
         flash('Your project has been created!', 'success')
         return redirect(url_for('projects'))
     return render_template('projects.html', title='New project',
-                           form=form, legend='New project')
+                           form=form, legend='New project', project=project.id)
 
 @app.route("/projects/<int:project_id>/update", methods=['GET', 'POST'])
 @login_required

@@ -3,17 +3,26 @@
   <div class="container mx-auto my-auto py-3 px-1">
     <div id="panelGroup" class="panel-group context" id="accordion" role="tablist" aria-multiselectable="true">
       <!-- Projects go here -->
-      {% if project %}
+
+       {% for project in projects %}
+        <p>hi {{ project.author }}</p>
+       {% endfor %}
+      
+      {% if project is defined and project|length %}
+      
+        {% for project in projects %}
           <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.author.image_file) }}">
             <div class="media-body">
               <div class="article-metadata">
-                <a class="mr-2" href="#">{{ project.author }}</a>
-                <small class="text-muted">{{ project.date_posted }}</small>
+                <a class="mr-2" href="#">{{ project.author.username }}</a>
+                <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
               </div>
-              <h2><a class="article-title" href="#">{{ project.title }}</a></h2>
+              <h2><a class="article-title" href="{{ url_for('project', project_id=project.id) }}">{{ project.title }}</a></h2>
               <p class="article-content">{{ project.content }}</p>
             </div>
           </article>
+        {% endfor %}
       {% else %} 
         <div class="alert alert-secondary">No Projects Found</div>
       {% endif %}
@@ -21,7 +30,7 @@
       {% if current_user.is_authenticated %}
         <div id="add-project-form" class="collapse content-section">
             <div class="card card-body">
-                <form method="POST" action="">
+                <form method="POST" action="/projects">
                     {{ form.hidden_tag() }}
                     <fieldset class="form-group">
                         <legend class="border-bottom mb-4">{{ legend }}</legend>
