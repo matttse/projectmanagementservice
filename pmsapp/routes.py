@@ -15,11 +15,7 @@ def home():
 
 @app.route("/projects")
 def projects():
-    projects = Project.query.all()
-    if projects == None:
-        return render_template('projects.html', title='Projects')
-    else:
-        return render_template('projects.html', title='Projects')
+    return render_template('projects.html', title='Projects')
 
 
 @app.route("/issues")
@@ -99,8 +95,9 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-@app.route("/project/add", methods=['GET', 'POST'])
-def addProject():
+@app.route("/project/new", methods=['GET', 'project'])
+@login_required
+def new_project():
     form = ProjectForm()
     if form.validate_on_submit():
         project = Project(title=form.title.data, content=form.content.data, author=current_user)
@@ -108,5 +105,11 @@ def addProject():
         db.session.commit()
         flash('Your project has been created!', 'success')
         return redirect(url_for('home'))
-    return render_template('create_project.html', title='New Post',
-                           form=form, legend='New Post')
+    return render_template('projects.html', title='New project',
+                           form=form, legend='New project')
+
+
+@app.route("/project/<int:project_id>")
+def project(project_id):
+    project = Project.query.get_or_404(project_id)
+    return render_template('projects.html', title=project.title, project=project)
