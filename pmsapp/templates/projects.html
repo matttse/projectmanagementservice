@@ -19,29 +19,53 @@
       {% endif %}
 
       {% if current_user.is_authenticated %}
-        <button id="add-project-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#project-body" aria-expanded="false" aria-controls="project-body" style="text-transform:none"><strong>Add Project</strong></button>
+        <div id="add-project-form" class="collapse content-section">
+            <div class="card card-body">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">{{ legend }}</legend>
+                        <div class="form-group">
+                            {{ form.title.label(class="form-control-label") }}
+                            {% if form.title.errors %}
+                                {{ form.title(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.title.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.title(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.content.label(class="form-control-label") }}
+                            {% if form.content.errors %}
+                                {{ form.content(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.content.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.content(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-outline-info") }}
+                    </div>
+                </form>
+            </div>
+            <!-- end card card-body -->
+        </div>
+        <!-- end project form container -->
+        <button id="add-project-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add-project-form" aria-expanded="false" aria-controls="#add-project-form" style="text-transform:none"><strong>Add Project</strong></button>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#project-body" aria-expanded="false" aria-controls="project-body" style="text-transform:none"><strong>Archive Project</strong></button>
       {% else %}
         <div class="alert alert-info">Please login to edit projects</div>
       {% endif %}
       </div>
-
-      <div id="working" class="modal fade py-5 mx-auto my-auto" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-md" role="document">
-              <div class="modal-content mr=1 text-center py-3 px-3">
-                  <div class="row">
-                      <div class="col-md-6 text-center m-auto">
-                          <strong>Executing pipeline...</strong>
-                      </div>
-                      <!-- grid col -->
-                  </div>
-                  <!-- grid row -->
-              </div>
-              <!-- modal content -->
-          </div>
-          <!-- modal dialog -->
-      </div>
-      <!-- modal container -->
   </div>
 <!-- projects container -->
 {% endblock content %}
