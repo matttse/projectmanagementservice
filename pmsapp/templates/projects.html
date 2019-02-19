@@ -1,17 +1,45 @@
 {% extends "layout.html" %}
 {% block content %}
-  <div class="container mx-auto my-auto py-3 px-1">
-    <div id="panelGroup" class="panel-group context" id="accordion" role="tablist" aria-multiselectable="true">
-      <!-- LOGS go here -->
+  {% if projects is not none %}
+    <div class="container mx-auto my-auto py-3 px-1">
+    {% for project in projects %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.author.image_file) }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="{{ url_for('account', username=project.author.username) }}">{{ project.author.username }}</a>
+            <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
+          </div>
+          <h2>
+            <a class="article-title" href="{{ url_for('update_project', project_id=project.id) }}">{{ project.title }}</a>
+          </h2>
+          <div class="row justify-content-between">
+            <div class="col">
+              <p class="article-content">{{ project.content }}</p>
+            </div>
+            <div class="col">
+              <div class="container mx-auto my-auto py-1 px-1">
+                <form action="{{ url_for('update_project', project_id=project.id) }}" method="POST">
+                  <input class="btn btn-secondary" type="submit" value="Update">
+                </form>
+              </div>
+              <div class="container mx-auto my-auto py-1 px-1">
+              <form action="{{ url_for('delete_project', project_id=project.id) }}" method="POST">
+                <input class="btn btn-danger" type="submit" value="Delete">
+              </form>
+            </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </article>
+      
+    {% endfor %}
+
+    {% else %}
       <div class="alert alert-secondary">No Projects Found</div>
-
-
-      {% if current_user.is_authenticated %}
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#project-body" aria-expanded="false" aria-controls="project-body" style="text-transform:none"><strong>Add Project</strong></button>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#project-body" aria-expanded="false" aria-controls="project-body" style="text-transform:none"><strong>Archive Project</strong></button>
-      {% else %}
-        <div class="alert alert-info">Please login to edit projects</div>
-      {% endif %}
-      </div>
-  </div>
-{% endblock content %}
+    {% endif %}
+      <a id="add-project-btn" class="btn btn-primary" href="{{ url_for('new_project') }}"><strong>Add Project</strong></a>
+    </div>
+    <!-- projects container -->
+  {% endblock content %}

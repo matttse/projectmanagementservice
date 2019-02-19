@@ -13,11 +13,6 @@ from flask_login import login_user, current_user, logout_user, login_required
 def home():
     return render_template('home.html', title='Home')
 
-@app.route("/projects")
-def projects():
-    return render_template('projects.html', title='Projects')
-
-
 @app.route("/issues")
 def issues():
     return render_template('issues.html', title='Issues')
@@ -95,14 +90,72 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-@app.route("/project/add", methods=['GET', 'POST'])
-def addProject():
+@app.route("/projects/new", methods=['GET', 'POST'])
+@login_required
+def new_project():
     form = ProjectForm()
     if form.validate_on_submit():
         project = Project(title=form.title.data, content=form.content.data, author=current_user)
         db.session.add(project)
         db.session.commit()
         flash('Your project has been created!', 'success')
-        return redirect(url_for('home'))
-    return render_template('create_project.html', title='New Post',
-                           form=form, legend='New Post')
+        return redirect(url_for('list_projects'))
+    return render_template('create_project.html', title='New Project',
+                           form=form, legend='New Project')
+
+
+@app.route("/project/<int:project_id>")
+def project(project_id):
+    project = Project.query.get_or_404(project_id)
+    return render_template('project.html', title=project.title, project=project)
+
+@app.route("/projects/all")
+def list_projects():
+    form = ProjectForm()
+    projects = Project.query.all()
+    return render_template('projects.html', 
+                           form=form, title='project', legend="New Project", projects=projects)
+
+@app.route("/projects/<int:project_id>", methods=['GET', 'POST'])
+def add_projects(project_id):    
+    project = Project.query.get_or_404(project_id)
+    form = ProjectForm()
+    if form.validate_on_submit():
+        project = Project(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(project)
+        db.session.commit()
+        flash('Your project has been created!', 'success')
+        return redirect(url_for('projects'))
+    return render_template('projects.html', title='New project',
+                           form=form, legend='New project', project=project.id)
+
+@app.route("/projects/<int:project_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_project(project_id):
+    project = Project.query.get_or_404(project_id)
+    if project.author != current_user:
+        abort(403)
+    form = ProjectForm()
+    if form.validate_on_submit():
+        project.title = form.title.data
+        project.content = form.content.data
+        db.session.commit()
+        flash('Your project has been updated!', 'success')
+        return redirect(url_for('list_projects', project_id=project.id))
+    elif request.method == 'GET':
+        form.title.data = project.title
+        form.content.data = project.content
+    return render_template('create_project.html', title='Update Project',
+                           form=form, legend='Update Project')
+
+
+@app.route("/projects/<int:project_id>/delete", methods=['POST'])
+@login_required
+def delete_project(project_id):
+    project = Project.query.get_or_404(project_id)
+    if project.author != current_user:
+        abort(403)
+    db.session.delete(project)
+    db.session.commit()
+    flash('Your project has been deleted!', 'success')
+    return redirect(url_for('list_projects'))
