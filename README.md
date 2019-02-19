@@ -1,6 +1,6 @@
 # Project Management Service
 
-A Python Flask Postgresql local application
+A Python Flask SQLAlchemy application
 
 - [Python](https://www.python.org/downloads/) Only works in 3.6+
 - [Flask](http://flask.pocoo.org/)
