@@ -125,7 +125,7 @@ def add_projects(project_id):
         db.session.add(project)
         db.session.commit()
         flash('Your project has been created!', 'success')
-        return redirect(url_for('projects'))
+        return redirect(url_for('list_projects'))
     return render_template('projects.html', title='New project',
                            form=form, legend='New project', project=project.id)
 
