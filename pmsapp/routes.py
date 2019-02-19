@@ -141,7 +141,7 @@ def update_project(project_id):
         project.content = form.content.data
         db.session.commit()
         flash('Your project has been updated!', 'success')
-        return redirect(url_for('projects', project_id=project.id))
+        return redirect(url_for('list_projects', project_id=project.id))
     elif request.method == 'GET':
         form.title.data = project.title
         form.content.data = project.content
@@ -158,4 +158,4 @@ def delete_project(project_id):
     db.session.delete(project)
     db.session.commit()
     flash('Your project has been deleted!', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('list_projects'))
