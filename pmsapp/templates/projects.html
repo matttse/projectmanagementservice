@@ -1,80 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-  <div class="container mx-auto my-auto py-3 px-1">
-    <div id="panelGroup" class="panel-group context" id="accordion" role="tablist" aria-multiselectable="true">
-      <!-- Projects go here -->
-
-       {% for project in projects %}
-        <p>hi {{ project.author }}</p>
-       {% endfor %}
-      
-      {% if project is defined and project|length %}
-      
-        {% for project in projects %}
-          <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.author.image_file) }}">
-            <div class="media-body">
-              <div class="article-metadata">
-                <a class="mr-2" href="#">{{ project.author.username }}</a>
-                <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
-              </div>
-              <h2><a class="article-title" href="{{ url_for('project', project_id=project.id) }}">{{ project.title }}</a></h2>
-              <p class="article-content">{{ project.content }}</p>
-            </div>
-          </article>
-        {% endfor %}
-      {% else %} 
-        <div class="alert alert-secondary">No Projects Found</div>
-      {% endif %}
-
-      {% if current_user.is_authenticated %}
-        <div id="add-project-form" class="collapse content-section">
-            <div class="card card-body">
-                <form method="POST" action="/projects">
-                    {{ form.hidden_tag() }}
-                    <fieldset class="form-group">
-                        <legend class="border-bottom mb-4">{{ legend }}</legend>
-                        <div class="form-group">
-                            {{ form.title.label(class="form-control-label") }}
-                            {% if form.title.errors %}
-                                {{ form.title(class="form-control form-control-lg is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.title.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.title(class="form-control form-control-lg") }}
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            {{ form.content.label(class="form-control-label") }}
-                            {% if form.content.errors %}
-                                {{ form.content(class="form-control form-control-lg is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.content.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.content(class="form-control form-control-lg") }}
-                            {% endif %}
-                        </div>
-                    </fieldset>
-                    <div class="form-group">
-                        {{ form.submit(class="btn btn-outline-info") }}
-                    </div>
-                </form>
-            </div>
-            <!-- end card card-body -->
+  {% if projects is not none %}
+    <div class="container mx-auto my-auto py-3 px-1">
+    {% for project in projects %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.author.image_file) }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="{{ url_for('account', username=project.author.username) }}">{{ project.author.username }}</a>
+            <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
+          </div>
+          <h2><a class="article-title" href="{{ url_for('project', project_id=project.id) }}">{{ project.title }}</a></h2>
+          <p class="article-content">{{ project.content }}</p>
         </div>
-        <!-- end project form container -->
-        <button id="add-project-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add-project-form" aria-expanded="false" aria-controls="#add-project-form" style="text-transform:none"><strong>Add Project</strong></button>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#project-body" aria-expanded="false" aria-controls="project-body" style="text-transform:none"><strong>Archive Project</strong></button>
-      {% else %}
-        <div class="alert alert-info">Please login to edit projects</div>
-      {% endif %}
-      </div>
-  </div>
-<!-- projects container -->
-{% endblock content %}
+      </article>
+    {% endfor %}
+    {% else %}
+      <div class="alert alert-secondary">No Projects Found</div>
+    {% endif %}
+      <a id="add-project-btn" class="btn btn-primary" href="{{ url_for('new_project') }}"><strong>Add Project</strong></a>
+    </div>
+    <!-- projects container -->
+  {% endblock content %}
