@@ -2,10 +2,11 @@ import os
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
-from pmsapp import app, db, bcrypt
-from pmsapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm
+from pmsapp import app, db, bcrypt, mail
+from pmsapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, RequestResetForm, ResetPasswordForm
 from pmsapp.models import User, Project
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_mail import Message
 
 
 @app.route("/")
