@@ -1,4 +1,83 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Chat Page</h1>
+<div class="col-sm-2" style="border-style: solid">
+    <div style="padding-top: 20px;"></div>
+    <h3>Channel list</h3><br/>
+    <p class="cl">
+        <b>#Public</b><br/>
+        <a href="">#Channel 1</a><br/>
+        <a href="">#Channel 2</a><br/>
+        <a href="">#Channel 3</a><br/>
+        <a href="">#Channel 4</a><br/>
+        <a href="">#Channel 5</a><br/>
+        <a href="">#Channel 6</a><br/>
+    </p>
+</div>
+
+<div class="col-sm-7" style="overflow: scroll; height:450px;">
+    <h1 id="title">
+        Public
+    </h1>
+    <div style="padding-top: 15px">
+    </div>
+    <p class="textbox">
+        <b>System</b>:  
+        <I>
+            <script type="text/javascript">
+                var myDate = new Date();
+                document.write(myDate.toLocaleString())
+            </script>
+        </I>
+        <br />
+        Welcome to the public channel!
+    </p>
+</div>
+
+<div class="col-sm-3" style="border-style: solid">
+    <div style="padding-top: 20px;"></div>
+    <h3>Participant</h3><br/>
+    <ul>
+        <li>System</li>
+        <li>Participant #1<b>(you)</b></li>
+        <li>Participant #2</li>
+        <li>Participant #3</li>
+        <li>Participant #4</li>
+        <li>Participant #5</li>
+        <li>Participant #6</li>
+        <li>Participant #7</li>
+    </ul>
+</div>
+
+<div class="col-sm-12">
+    <hr>
+    <form action="" method="POST">
+        <div style="padding-top: 10 px;"></div>
+        <b>Type your message below
+            <script>
+            function show(){
+            var date = new Date();
+            var now = "";
+            now = (date.getMonth()+1)+"/";
+            now = now + date.getDate()+"/";
+            now = now + date.getFullYear()+",";
+            if(date.getHours()<10) now = now + "0"
+            now = now + date.getHours()+":";
+            if(date.getMinutes()<10) now = now + "0"
+            now = now + date.getMinutes()+":";
+            if(date.getSeconds()<10) now = now + "0"
+            now = now + date.getSeconds();
+            document.getElementById("nowDiv").innerHTML = now;
+            setTimeout("show()",1000);
+            }
+            </script>
+            <body onload="show()">
+                <div id="nowDiv"></div>
+            </body>
+        </b>
+        <div style="padding-top: 10px;"></div>
+        <input type="text" style='width: 100%; height:40px;' class="message form-control" placeholder="Messages">
+        <div style="padding-top: 5px;"></div>
+        <button type="submit" class="btn btn-success btn-block" style="width: 15%"> Send</button>
+    </form>
+</div>
 {% endblock content %}
