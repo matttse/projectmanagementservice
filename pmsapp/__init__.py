@@ -10,7 +10,8 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 # AWS config from object
-app.config.from_object('config')
+# app.config.from_object('config')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{user}:{password}@{server}:{port}/{database}'.format(user='admin', password='#Y_)~-s]LB2t', server='projectmanagementservicetest.cjkwv9ccpled.us-east-1.rds.amazonaws.com', port='3306', database='projectdb')
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
