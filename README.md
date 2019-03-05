@@ -9,7 +9,7 @@ A Python Flask SQLAlchemy application
 
 run to ensure libraries are installed
 ```
-pip install flask_login flask_bcrypt flask_caching flask_debugtoolbar flask_migrate flask_mail flask_wtf Flask-SQLAlchemy Pillow
+pip install awscli awsebcli flask_login flask_bcrypt flask_caching flask_debugtoolbar flask_migrate flask_mail flask_wtf Flask-SQLAlchemy Pillow pymysql
 
 ```
 
