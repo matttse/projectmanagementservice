@@ -20,7 +20,9 @@ def issues():
 @application.route("/chat")
 def chat():
     return render_template('chat.html', title='Chat')
-
+# 
+# Accounts
+# 
 @application.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -89,6 +91,9 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
+# 
+# Projects
+# 
 
 @application.route("/projects/new", methods=['GET', 'POST'])
 @login_required
@@ -159,3 +164,76 @@ def delete_project(project_id):
     db.session.commit()
     flash('Your project has been deleted!', 'success')
     return redirect(url_for('list_projects'))
+
+# 
+# Requirements
+# 
+@application.route("/projects/<int:project_id>/requirements/new", methods=['GET', 'POST'])
+@login_required
+def new_requirement():
+    form = RequirementForm()
+    if form.validate_on_submit():
+        requirement = Requirement(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(requirement)
+        db.session.commit()
+        flash('Your requirement has been created!', 'success')
+        return redirect(url_for('list_requirements'))
+    return render_template('create_requirement.html', title='New requirement',
+                           form=form, legend='New requirement')
+
+
+@application.route("/projects/<int:project_id>/requirement/<int:requirement_id>")
+def requirement(requirement_id):
+    requirement = Requirement.query.get_or_404(requirement_id)
+    return render_template('requirement.html', title=requirement.title, requirement=requirement)
+
+@application.route("/projects/<int:project_id>/requirements/all")
+def list_requirements():
+    form = RequirementForm()
+    requirements = Requirement.query.all()
+    return render_template('requirements.html', 
+                           form=form, title='requirement', legend="New requirement", requirements=requirements)
+
+@application.route("/projects/<int:project_id>/requirements/<int:requirement_id>", methods=['GET', 'POST'])
+def add_requirements(requirement_id):    
+    requirement = Requirement.query.get_or_404(requirement_id)
+    form = RequirementForm()
+    if form.validate_on_submit():
+        requirement = Requirement(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(requirement)
+        db.session.commit()
+        flash('Your requirement has been created!', 'success')
+        return redirect(url_for('list_requirements'))
+    return render_template('requirements.html', title='New requirement',
+                           form=form, legend='New requirement', requirement=requirement.id)
+
+@application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_requirement(requirement_id):
+    requirement = Requirement.query.get_or_404(requirement_id)
+    if requirement.author != current_user:
+        abort(403)
+    form = RequirementForm()
+    if form.validate_on_submit():
+        requirement.title = form.title.data
+        requirement.content = form.content.data
+        db.session.commit()
+        flash('Your requirement has been updated!', 'success')
+        return redirect(url_for('list_requirements', requirement_id=requirement.id))
+    elif request.method == 'GET':
+        form.title.data = requirement.title
+        form.content.data = requirement.content
+    return render_template('create_requirement.html', title='Update requirement',
+                           form=form, legend='Update requirement')
+
+
+@application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/delete", methods=['POST'])
+@login_required
+def delete_requirement(requirement_id):
+    requirement = requirement.query.get_or_404(requirement_id)
+    if requirement.author != current_user:
+        abort(403)
+    db.session.delete(requirement)
+    db.session.commit()
+    flash('Your requirement has been deleted!', 'success')
+    return redirect(url_for('list_requirements'))
