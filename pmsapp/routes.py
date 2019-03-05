@@ -3,8 +3,8 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from pmsapp import application, db, bcrypt
-from pmsapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm
-from pmsapp.models import User, Project
+from pmsapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, RequirementForm
+from pmsapp.models import User, Project, Requirement
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -170,32 +170,32 @@ def delete_project(project_id):
 # 
 @application.route("/projects/<int:project_id>/requirements/new", methods=['GET', 'POST'])
 @login_required
-def new_requirement():
+def new_requirement(project_id):
     form = RequirementForm()
     if form.validate_on_submit():
-        requirement = Requirement(title=form.title.data, content=form.content.data, author=current_user)
+        requirement = Requirement(title=form.title.data, content=form.content.data, project_id=project_id)
         db.session.add(requirement)
         db.session.commit()
         flash('Your requirement has been created!', 'success')
-        return redirect(url_for('list_requirements'))
+        return redirect(url_for('list_requirements'), project_id=project_id)
     return render_template('create_requirement.html', title='New requirement',
                            form=form, legend='New requirement')
 
 
 @application.route("/projects/<int:project_id>/requirement/<int:requirement_id>")
-def requirement(requirement_id):
+def requirement(project_id, requirement_id):
     requirement = Requirement.query.get_or_404(requirement_id)
-    return render_template('requirement.html', title=requirement.title, requirement=requirement)
+    return render_template('requirements.html', title=requirement.title, requirement=requirement, project=project_id)
 
 @application.route("/projects/<int:project_id>/requirements/all")
-def list_requirements():
+def list_requirements(project_id):
     form = RequirementForm()
-    requirements = Requirement.query.all()
+    requirements = Requirement.query.filter_by(project_id=project_id)
     return render_template('requirements.html', 
-                           form=form, title='requirement', legend="New requirement", requirements=requirements)
+                           form=form, title='requirement', legend="New requirement", requirements=requirements, project=project_id)
 
 @application.route("/projects/<int:project_id>/requirements/<int:requirement_id>", methods=['GET', 'POST'])
-def add_requirements(requirement_id):    
+def add_requirements(project_id, requirement_id):    
     requirement = Requirement.query.get_or_404(requirement_id)
     form = RequirementForm()
     if form.validate_on_submit():
@@ -205,21 +205,19 @@ def add_requirements(requirement_id):
         flash('Your requirement has been created!', 'success')
         return redirect(url_for('list_requirements'))
     return render_template('requirements.html', title='New requirement',
-                           form=form, legend='New requirement', requirement=requirement.id)
+                           form=form, legend='New requirement', requirement=requirement.id, project=project.id)
 
 @application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/update", methods=['GET', 'POST'])
 @login_required
-def update_requirement(requirement_id):
+def update_requirement(project_id, requirement_id):
     requirement = Requirement.query.get_or_404(requirement_id)
-    if requirement.author != current_user:
-        abort(403)
     form = RequirementForm()
     if form.validate_on_submit():
         requirement.title = form.title.data
         requirement.content = form.content.data
         db.session.commit()
         flash('Your requirement has been updated!', 'success')
-        return redirect(url_for('list_requirements', requirement_id=requirement.id))
+        return redirect(url_for('list_requirements', requirement_id=requirement.id, project=project_id))
     elif request.method == 'GET':
         form.title.data = requirement.title
         form.content.data = requirement.content
@@ -229,7 +227,7 @@ def update_requirement(requirement_id):
 
 @application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/delete", methods=['POST'])
 @login_required
-def delete_requirement(requirement_id):
+def delete_requirement(project_id, requirement_id):
     requirement = requirement.query.get_or_404(requirement_id)
     if requirement.author != current_user:
         abort(403)
