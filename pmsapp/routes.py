@@ -190,7 +190,11 @@ def requirement(project_id, requirement_id):
 @application.route("/projects/<int:project_id>/requirements/all")
 def list_requirements(project_id):
     form = RequirementForm()
-    requirements = Requirement.query.filter_by(project_id=project_id)
+    requirement_count = Requirement.query.filter_by(project_id=project_id).count()
+    if requirement_count > 0:
+        requirements = Requirement.query.filter_by(project_id=project_id)
+    else:
+        requirements = 0
     return render_template('requirements.html', 
                            form=form, title='requirement', legend="New requirement", requirements=requirements, project=project_id)
 
