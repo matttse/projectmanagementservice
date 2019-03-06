@@ -19,9 +19,9 @@ git clone https://github.com/matttse/projectmanagementservice
 cd projectmanagementservice
 ```
 
-deploying to production on server
+deploying to devlopment on server
 ```
-python app.py
+python application.py
 ```
 
 *Note: you may need to initialize the db, please refer to http://flask-sqlalchemy.pocoo.org/2.3/quickstart/ for more information
