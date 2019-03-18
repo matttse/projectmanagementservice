@@ -185,7 +185,7 @@ def new_requirement(project_id):
 @application.route("/projects/<int:project_id>/requirement/<int:requirement_id>")
 def requirement(project_id, requirement_id):
     requirement = Requirement.query.get_or_404(requirement_id)
-    return render_template('requirements.html', title=requirement.title, requirement=requirement, project=project_id)
+    return render_template('requirements.html', title=requirement.title, requirement=requirement, project_id=project_id)
 
 @application.route("/projects/<int:project_id>/requirements/all")
 def list_requirements(project_id):
@@ -196,7 +196,7 @@ def list_requirements(project_id):
     else:
         requirements = 0
     return render_template('requirements.html', 
-                           form=form, title='requirement', legend="New requirement", requirements=requirements, project=project_id)
+                           form=form, title='requirement', legend="New requirement", requirements=requirements, project_id=project_id)
 
 @application.route("/projects/<int:project_id>/requirements/<int:requirement_id>", methods=['GET', 'POST'])
 def add_requirements(project_id, requirement_id):    
@@ -209,7 +209,7 @@ def add_requirements(project_id, requirement_id):
         flash('Your requirement has been created!', 'success')
         return redirect(url_for('list_requirements'))
     return render_template('requirements.html', title='New requirement',
-                           form=form, legend='New requirement', requirement=requirement.id, project=project.id)
+                           form=form, legend='New requirement', requirement=requirement.id, project_id=project.id)
 
 @application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -221,7 +221,7 @@ def update_requirement(project_id, requirement_id):
         requirement.content = form.content.data
         db.session.commit()
         flash('Your requirement has been updated!', 'success')
-        return redirect(url_for('list_requirements', requirement_id=requirement.id, project=project_id))
+        return redirect(url_for('list_requirements', requirement_id=requirement.id, project_id=project_id))
     elif request.method == 'GET':
         form.title.data = requirement.title
         form.content.data = requirement.content
@@ -232,10 +232,8 @@ def update_requirement(project_id, requirement_id):
 @application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/delete", methods=['POST'])
 @login_required
 def delete_requirement(project_id, requirement_id):
-    requirement = requirement.query.get_or_404(requirement_id)
-    if requirement.author != current_user:
-        abort(403)
+    requirement = Requirement.query.get_or_404(requirement_id)
     db.session.delete(requirement)
     db.session.commit()
     flash('Your requirement has been deleted!', 'success')
-    return redirect(url_for('list_requirements'))
+    return redirect(url_for('list_requirements', project_id=project_id))
