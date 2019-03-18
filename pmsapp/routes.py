@@ -177,7 +177,7 @@ def new_requirement(project_id):
         db.session.add(requirement)
         db.session.commit()
         flash('Your requirement has been created!', 'success')
-        return redirect(url_for('list_requirements'), project_id=project_id)
+        return redirect(url_for('list_requirements', project_id=project_id))
     return render_template('create_requirement.html', title='New requirement',
                            form=form, legend='New requirement')
 
