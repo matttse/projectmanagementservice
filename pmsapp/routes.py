@@ -232,7 +232,7 @@ def update_requirement(project_id, requirement_id):
 @application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/delete", methods=['POST'])
 @login_required
 def delete_requirement(project_id, requirement_id):
-    requirement = Requirement.query.get_or_404(requirement_id)
+    requirement = Requirement.query.filter_by(id=requirement_id).first()
     db.session.delete(requirement)
     db.session.commit()
     flash('Your requirement has been deleted!', 'success')
