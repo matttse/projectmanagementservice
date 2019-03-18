@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mx-auto my-auto py-3 px-1">
+  {% if requirements != 0 %}
+  
+
+      {% for requirement in requirements %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <small class="text-muted">{{ requirement.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <h2>
+              <a class="article-title" >{{ requirement.title }}</a>
+            </h2>
+            <div class="row justify-content-between">
+              <div class="col">
+                <p class="article-content">{{ requirement.content }}</p>
+              </div>
+              <div class="col">
+
+              </div>
+            </div>
+          </div>
+          </div>
+        </article>
+    
+      {% endfor %}
+    {% else %}
+      <div class="alert alert-secondary">No Requirements Found</div>
+    {% endif %}
+    <a id="add-requirement-btn" class="btn btn-primary" href="{{ url_for('new_requirement', project_id=project) }}"><strong>Add Requirements</strong></a>
+  </div>
+    <!-- requirements container -->
+  {% endblock content %}
