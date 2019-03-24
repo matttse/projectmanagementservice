@@ -3,8 +3,8 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from pmsapp import application, db, bcrypt
-from pmsapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, RequirementForm
-from pmsapp.models import User, Project, Requirement
+from pmsapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, RequirementForm, StoryForm
+from pmsapp.models import User, Project, Requirement, Story
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -237,3 +237,83 @@ def delete_requirement(project_id, requirement_id):
     db.session.commit()
     flash('Your requirement has been deleted!', 'success')
     return redirect(url_for('list_requirements', project_id=project_id))
+
+
+# 
+# Stories
+# 
+@application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/stories/new", methods=['GET', 'POST'])
+@login_required
+def new_story(project_id, requirement_id):
+    form = StoryForm()
+    if form.validate_on_submit():
+        story = Story(title=form.title.data, content=form.content.data, project_id=project_id,requirement_id=requirement_id,status=form.status.data)
+        db.session.add(story)
+        db.session.commit()
+        flash('Your story has been created!', 'success')
+        return redirect(url_for('list_stories', project_id=project_id, requirement_id=requirement_id))
+    return render_template('create_story.html', title='New story',
+                           form=form, legend='New story')
+
+@application.route("/projects/<int:project_id>/requirement/<int:requirement_id>/stories/<int:story_id>")
+def story(project_id, requirement_id, story_id):
+    story = Story.query.get_or_404(story_id)
+    return render_template('stories.html', title=story.title, story=story, project_id=project_id, requirement_id=requirement_id)
+
+
+@application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/stories/all")
+def list_stories(project_id,requirement_id):
+    form = StoryForm()
+    story_count = Story.query.filter_by(requirement_id=requirement_id).count()
+    if story_count > 0:
+        stories = Story.query.filter_by(requirement_id=requirement_id)
+    else:
+        stories = 0
+    return render_template('stories.html', 
+                           form=form, title='story', legend="New story", stories=stories, project_id=project_id, requirement_id=requirement_id)
+
+
+@application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/stories/<int:story_id>", methods=['GET', 'POST'])
+def add_story(project_id, requirement_id, story_id):    
+    story = Story.query.get_or_404(story_id)
+    form = StoryForm()
+    if form.validate_on_submit():
+        story = Story(title=form.title.data, content=form.content.data, project_id=project_id, requirement_id=requirement_id, status=form.content.status)        
+        db.session.add(story)
+        db.session.commit()
+        flash('Your story has been created!', 'success')
+        return redirect(url_for('list_stories'))
+    return render_template('stories.html', title='New story',
+                           form=form, legend='New story', requirement_id=requirement.id, project_id=project.id, story=story.id)
+
+
+@application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/stories/<int:story_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_story(project_id, requirement_id, sotry_id):
+    story = Story.query.get_or_404(story_id)
+    form = StoryForm()
+    if form.validate_on_submit():
+        story.title = form.title.data
+        story.content = form.content.data
+        db.session.commit()
+        flash('Your story has been updated!', 'success')
+        return redirect(url_for('list_stories', requirement_id=requirement.id, project_id=project_id, story=story.id))
+    elif request.method == 'GET':
+        form.title.data = story.title
+        form.content.data = story.content
+    return render_template('create_story.html', title='Update story',
+                           form=form, legend='Update story')
+
+@application.route("/projects/<int:project_id>/requirements/<int:requirement_id>/stories/<int:story_id>/delete", methods=['POST'])
+@login_required
+def delete_story(project_id, requirement_id,story_id):
+    story = Story.query.filter_by(id=story_id).first()
+    db.session.delete(story)
+    db.session.commit()
+    flash('Your story has been deleted!', 'success')
+    return redirect(url_for('list_stories', project_id=project_id,requirement_id=requirement_id))
+
+
+
+
+

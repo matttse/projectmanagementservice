@@ -47,6 +47,7 @@ class Story(db.Model):
     content = db.Column(db.Text, nullable=False)
     status = db.Column(db.Text, nullable=False)
     requirement_id = db.Column(db.Integer, db.ForeignKey('requirement.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
 
     def __repr__(self):
         return f"Story('{self.title}', '{self.date_posted}')"
