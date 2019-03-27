@@ -58,7 +58,7 @@ def add_story(project_id, requirement_id, story_id):
 
 @stories.route("/projects/<int:project_id>/requirements/<int:requirement_id>/stories/<int:story_id>/update", methods=['GET', 'POST'])
 @login_required
-def update_story(project_id, requirement_id, sotry_id):
+def update_story(project_id, requirement_id, story_id):
     story = Story.query.get_or_404(story_id)
     form = StoryForm()
     if form.validate_on_submit():
