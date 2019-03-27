@@ -19,8 +19,6 @@
                   <div class="float-right">
                       <div class="container mx-auto my-auto py-1 px-1">
                         <a class="btn btn-secondary" href="{{url_for('stories.list_stories', project_id=project_id, requirement_id=requirement.id)}}">Story</a>
-                                    {{requirement.id}}
-                                                {{project_id}}
                       </div>             
                       <div class="container mx-auto my-auto py-1 px-1">
                         <form action="{{ url_for('requirements.delete_requirement', project_id=project_id, requirement_id=requirement.id) }}" method="POST">
