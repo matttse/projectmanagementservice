@@ -65,3 +65,9 @@ class RequirementForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Description', validators=[DataRequired()])
     submit = SubmitField('Submit New Requirement')
+
+class StoryForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    status = StringField('Status', validators=[DataRequired()])
+    content = TextAreaField('Description', validators=[DataRequired()])
+    submit = SubmitField('Submit New Story')
