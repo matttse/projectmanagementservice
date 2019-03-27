@@ -11,24 +11,30 @@
               <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
             <h2>
-              <a class="article-title" href="{{ url_for('update_project', project_id=project.id) }}">{{ project.title }}</a>
+              {% if project.author == current_user %}
+                <a class="article-title" href="{{ url_for('update_project', project_id=project.id) }}">{{ project.title }}</a>
+              {% else %}
+                <div class="article-title">{{ project.title }}</div>
+              {% endif %}
             </h2>
             <div class="row justify-content-between">
               <div class="col">
                 <p class="article-content">{{ project.content }}</p>
               </div>
               <div class="col">
-                {% if project.author == current_user %}
+                <div class="float-right">
                   <div class="container mx-auto my-auto py-1 px-1">
                     <a class="btn btn-secondary" href="{{ url_for('list_requirements', project_id=project.id) }}">Requirements</a>
                   </div>
-                  <div class="container mx-auto my-auto py-1 px-1">
-                    <a class="btn btn-secondary" href="{{ url_for('update_project', project_id=project.id) }}">Update</a>
-                  </div>
-                  <div class="container mx-auto my-auto py-1 px-1">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                  </div>
-                {% endif %}
+                  {% if project.author == current_user %}
+                    <div class="container mx-auto my-auto py-1 px-1">
+                      <a class="btn btn-secondary" href="{{ url_for('update_project', project_id=project.id) }}">Update</a>
+                    </div>                  
+                    <div class="container mx-auto my-auto py-1 px-1">
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                    </div>
+                  {% endif %}
+                </div>
               </div>
             </div>
           </div>

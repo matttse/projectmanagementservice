@@ -2,8 +2,6 @@
 {% block content %}
 <div class="container mx-auto my-auto py-3 px-1">
   {% if requirements != 0 %}
-  
-
       {% for requirement in requirements %}
         <article class="media content-section">
           <div class="media-body">
@@ -11,25 +9,32 @@
               <small class="text-muted">{{ requirement.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
             <h2>
-              <a class="article-title" >{{ requirement.title }}</a>
+              <a class="article-title" href="{{ url_for('update_requirement', project_id=project_id, requirement_id=requirement.id) }}">{{ requirement.title }}</a>
             </h2>
             <div class="row justify-content-between">
               <div class="col">
                 <p class="article-content">{{ requirement.content }}</p>
               </div>
               <div class="col">
-
+                  <div class="float-right">
+                      <div class="container mx-auto my-auto py-1 px-1">
+                        <a class="btn btn-secondary">Story</a>
+                      </div>             
+                      <div class="container mx-auto my-auto py-1 px-1">
+                        <form action="{{ url_for('delete_requirement', project_id=project_id, requirement_id=requirement.id) }}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                      </div>
+                    </div>
               </div>
             </div>
           </div>
           </div>
         </article>
-    
       {% endfor %}
     {% else %}
       <div class="alert alert-secondary">No Requirements Found</div>
     {% endif %}
-    <a id="add-requirement-btn" class="btn btn-primary" href="{{ url_for('new_requirement', project_id=project) }}"><strong>Add Requirements</strong></a>
+    <a id="add-requirement-btn" class="btn btn-primary" href="{{ url_for('new_requirement', project_id=project_id) }}"><strong>Add Requirements</strong></a>
   </div>
     <!-- requirements container -->
   {% endblock content %}

@@ -10,7 +10,8 @@ application.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 # Local Database
 # application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 # AWS RDS Database
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{user}:{password}@{server}/{database}'.format(user='admin', password='#Y_)~-s]LB2t', server='projectmanagementservicetest.cjkwv9ccpled.us-east-1.rds.amazonaws.com:3306', database='projectdb')
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{user}:{password}@{server}/{database}'.format(user='admin', password='#Y_)~-s]LB2t', server='projectmanagementservicetest.cjkwv9ccpled.us-east-1.rds.amazonaws.com:3306', database='projectdb')
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{user}:{password}@{server}/{database}'.format(user='admin', password='projecttesting1', server='projectmanagementservice.cjkwv9ccpled.us-east-1.rds.amazonaws.com:3306', database='projectdb')
 
 db = SQLAlchemy(application)
 bcrypt = Bcrypt(application)
