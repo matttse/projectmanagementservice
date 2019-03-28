@@ -16,7 +16,6 @@ class IssueForm(FlaskForm):
     issue_date = DateField(u'date create')
     priority = TextAreaField('Priority', validators=[DataRequired()])
     completed_date = DateField('Completed Date', format='%m/%d/%Y', validators=(validators.Optional(),))
-    open_by = TextAreaField('Opened By', validators=[DataRequired()])
     project = QuerySelectField("ProjectID", query_factory=project_ids, allow_blank=False)
     submit = SubmitField('Submit New Issue')
 
