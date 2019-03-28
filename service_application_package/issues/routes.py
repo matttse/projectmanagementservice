@@ -12,8 +12,9 @@ def list_issues():
     form = IssueForm()
     issues = Issue.query.all()
     projects = Project.query.all()
+    users = User.query.all()
     return render_template('issues_all.html', 
-                           form=form, title='issue', legend="New Issue", issues=issues, projects=projects)
+                           form=form, title='issue', legend="New Issue", issues=issues, projects=projects, users=users)
 
 @issues.route("/issue/<int:issue_id>")
 def issue(issue_id):
@@ -25,7 +26,7 @@ def issue(issue_id):
 def new_issue():
     form = IssueForm()
     projects = Project.query.all()
-    
+    users = User.query.all()
     if form.validate_on_submit():
         issue = Issue(title=form.title.data,
         issue_description=form.issue_description.data,
@@ -39,4 +40,4 @@ def new_issue():
         flash('Your issue has been created!', 'success')
         return redirect(url_for('main.home'))
     return render_template('create_issue.html', title='New Issue',
-                           form=form, legend='New Issue', projects=projects)
+                           form=form, legend='New Issue', projects=projects, users=users)
