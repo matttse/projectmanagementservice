@@ -24,7 +24,13 @@ def issue(issue_id):
 def new_issue():
     form = IssueForm()
     if form.validate_on_submit():
-        issue = Issue(title=form.title.data, issue_description=form.content.data, open_by=current_user)
+        issue = Issue(title=form.title.data,
+        issue_description=form.issue_description.data,
+        issue_date=form.issue_date.data,
+        priority=form.priority.data,
+        completed_date=form.completed_date.data,
+        open_by=current_user,
+        project=form.project.data,)
         db.session.add(issue)
         db.session.commit()
         flash('Your issue has been created!', 'success')
