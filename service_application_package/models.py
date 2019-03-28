@@ -70,9 +70,12 @@ class Story(db.Model):
 class Issue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    content = db.Column(db.Text, nullable=False)
+    issue_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    issue_description = db.Column(db.Text, nullable=False)
+    open_by = db.Column(db.Text, nullable=False)
+    priority = db.Column(db.Text, nullable=False)
+    completed_date = db.Column(db.DateTime, nullable=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
 
     def __repr__(self):
-        return f"Requirement('{self.title}', '{self.date_posted}')"
+        return f"Requirement('{self.title}', '{self.issue_date}')"

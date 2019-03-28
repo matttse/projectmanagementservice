@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+  {% if issues|length > 0 %}
+    <div class="container mx-auto my-auto py-3 px-1">
+      {% for issue in issues %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + issue.author.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{{ url_for('users.user_projects', username=issue.author.username) }}">{{ issue.author.username }}</a>
+              <small class="text-muted">{{ issue.date_posted.strftime('%Y-%m-%d') }}</small>
+            </div>
+            <div class="row justify-content-between">
+              <div class="col">
+                <p class="article-content">{{ issue.content }}</p>
+              </div>
+            </div>
+          </div>
+          </div>
+        </article>   
+      {% endfor %}
+
+    {% else %}
+      <div class="alert alert-secondary">No Issues Found</div>
+    {% endif %}
+      <a id="add-project-btn" class="btn btn-primary" href="{{ url_for('issues.new_issue') }}"><strong>Add Issue</strong></a>
+    </div>
+    <!-- projects container -->
+  {% endblock content %}

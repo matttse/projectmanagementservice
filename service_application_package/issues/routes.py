@@ -7,6 +7,27 @@ from service_application_package.issues.forms import IssueForm
 
 issues = Blueprint('issues', __name__)
 
-@issues.route("/issues")
-def issues():
-    return render_template('issues.html', title='Issues')
+@issues.route("/issues/all")
+def list_issues():
+    form = IssueForm()
+    issues = Issue.query.all()
+    return render_template('issues_all.html', 
+                           form=form, title='issue', legend="New Issue", issues=issues)
+
+@issues.route("/issue/<int:issue_id>")
+def issue(issue_id):
+    issue = Issue.query.get_or_404(issue_id)
+    return render_template('issue.html', title=issue.title, issue=project)
+
+@issues.route("/issue/new", methods=['GET', 'POST'])
+@login_required
+def new_issue():
+    form = IssueForm()
+    if form.validate_on_submit():
+        issue = Issue(title=form.title.data, issue_description=form.content.data, open_by=current_user)
+        db.session.add(issue)
+        db.session.commit()
+        flash('Your issue has been created!', 'success')
+        return redirect(url_for('main.home'))
+    return render_template('create_issue.html', title='New Issue',
+                           form=form, legend='New Issue')
