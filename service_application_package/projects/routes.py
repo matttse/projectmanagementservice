@@ -21,6 +21,12 @@ def new_project():
     return render_template('create_project.html', title='New Project',
                            form=form, legend='New Project')
 
+@projects.route("/projects/all")
+def list_projects():
+    form = ProjectForm()
+    projects = Project.query.all()
+    return render_template('projects_all.html', 
+                           form=form, title='project', legend="New Project", projects=projects)
 
 @projects.route("/project/<int:project_id>")
 def project(project_id):
