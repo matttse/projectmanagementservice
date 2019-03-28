@@ -7,17 +7,27 @@ A Python Flask SQLAlchemy application
 - [Bootstrap](https://getbootstrap.com/)
 - [Git](https://gist.github.com/derhuerst/1b15ff4652a867391f03)
 
-run to ensure libraries are installed
-```
-pip install awscli awsebcli flask_login flask_bcrypt flask_caching flask_debugtoolbar flask_migrate flask_mail flask_wtf Flask-SQLAlchemy Pillow pymysql
-
-```
-
 clone the environment master environment
 ```
 git clone https://github.com/matttse/projectmanagementservice
 cd projectmanagementservice
 ```
+
+create and run virtualenv on Windows 10 PowerShell
+```
+pip install virtualenv
+cd [env name]/Scripts
+cmd
+activate.bat
+```
+
+run to ensure libraries are installed
+```
+pip install flask flask_sqlalchemy flask_bcrypt flask_login flask_mail flask_wtf Pillow pymysql
+
+```
+
+
 
 deploying to devlopment on server
 ```
