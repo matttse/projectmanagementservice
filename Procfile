@@ -1,2 +1,0 @@
-web: gunicorn service_application_package:application
-web: gunicorn run:projectmanagementsvc
