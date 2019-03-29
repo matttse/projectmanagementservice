@@ -16,6 +16,7 @@ cd projectmanagementservice
 create and run virtualenv on Windows 10 PowerShell
 ```
 pip install virtualenv
+virtualenv [env name]
 cd [env name]/Scripts
 cmd
 activate.bat
@@ -27,9 +28,25 @@ pip install flask flask_sqlalchemy flask_bcrypt flask_login flask_mail flask_wtf
 
 ```
 
+Environment Variables required (default using smtp.google 587)
+```
+EMAIL_USERNAME
+EMAIL_PASS
+SQLALCHEMY_DATABASE_URI
+SECRET_KEY
+```
+
+Static Files
+```
+Path: /static/
+Directory: service_application_package/static/
+Path: /static/profile_pics/
+Directory: service_application_package/static/profile_pics/
+```
 
 
-deploying to devlopment on server
+
+deploying to devlopment on server (needs local OS environ vars export/set)
 ```
 python application.py
 ```
