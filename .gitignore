@@ -1,4 +1,4 @@
-# Mac
+﻿# Mac
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
@@ -103,6 +103,7 @@ celerybeat-schedule
 .venv
 env/
 venv/
+test/
 ENV/
 env.bak/
 venv.bak/
@@ -124,3 +125,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
