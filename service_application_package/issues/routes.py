@@ -33,7 +33,7 @@ def new_issue():
         issue_date=form.issue_date.data,
         priority=form.priority.data,
         completed_date=form.completed_date.data,
-        open_by=current_user,
+        open_by=form.opened_by.data,
         project=form.project.data)
         db.session.add(issue)
         db.session.commit()
