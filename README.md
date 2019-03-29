@@ -12,14 +12,21 @@ clone the environment master environment
 git clone https://github.com/matttse/projectmanagementservice
 cd projectmanagementservice
 ```
-
-create and run virtualenv on Windows 10 PowerShell
+if on windows 10 PowerShell
+create and run virtualenv
 ```
 pip install virtualenv
 virtualenv [env name]
 cd [env name]/Scripts
 cmd
 activate.bat
+```
+If on UNIX
+```
+pip install virtualenv
+virtualenv [env name]
+source [env name]/bin/activate
+
 ```
 
 run to ensure libraries are installed
