@@ -20,7 +20,7 @@ def new_requirement(project_id):
         db.session.add(requirement)
         db.session.commit()
         flash('Your requirement has been created!', 'success')
-        return redirect(url_for('list_requirements', project_id=project_id))
+        return redirect(url_for('requirements.list_requirements', project_id=project_id))
     return render_template('create_requirement.html', title='New requirement',
                            form=form, legend='New requirement')
 
@@ -50,7 +50,7 @@ def add_requirements(project_id, requirement_id):
         db.session.add(requirement)
         db.session.commit()
         flash('Your requirement has been created!', 'success')
-        return redirect(url_for('list_requirements'))
+        return redirect(url_for('requirements.list_requirements'))
     return render_template('requirements.html', title='New requirement',
                            form=form, legend='New requirement', requirement=requirement.id, project_id=project.id)
 
@@ -64,7 +64,7 @@ def update_requirement(project_id, requirement_id):
         requirement.content = form.content.data
         db.session.commit()
         flash('Your requirement has been updated!', 'success')
-        return redirect(url_for('list_requirements', requirement_id=requirement.id, project_id=project_id))
+        return redirect(url_for('requirements.list_requirements', requirement_id=requirement.id, project_id=project_id))
     elif request.method == 'GET':
         form.title.data = requirement.title
         form.content.data = requirement.content
@@ -79,4 +79,4 @@ def delete_requirement(project_id, requirement_id):
     db.session.delete(requirement)
     db.session.commit()
     flash('Your requirement has been deleted!', 'success')
-    return redirect(url_for('list_requirements', project_id=project_id))
+    return redirect(url_for('requirements.list_requirements', project_id=project_id))
