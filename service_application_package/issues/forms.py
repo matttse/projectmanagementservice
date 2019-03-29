@@ -2,12 +2,12 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, DateField, validators, SelectField
 from wtforms.validators import DataRequired
 from service_application_package.models import Project, User
-import time
+from datetime import datetime
 
 class IssueForm(FlaskForm):
     title = StringField('Issue Title', validators=[DataRequired()])
     issue_description = TextAreaField('Issue Description', validators=[DataRequired()])
-    issue_date = DateField('Issue Date', format='%m/%d/%Y', validators=[DataRequired()], default=time.strftime('%m/%d/%Y'))
+    issue_date = DateField('Issue Date', format='%m/%d/%Y', validators=[DataRequired()], default=datetime.today)
     priority = TextAreaField('Priority', validators=[DataRequired()])
     completed_date = DateField('Completed Date', format='%m/%d/%Y', validators=(validators.Optional(),))
     opened_by = SelectField('Opened By', validators=[DataRequired()])
