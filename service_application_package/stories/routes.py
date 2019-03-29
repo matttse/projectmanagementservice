@@ -20,7 +20,7 @@ def new_story(project_id, requirement_id):
         db.session.add(story)
         db.session.commit()
         flash('Your story has been created!', 'success')
-        return redirect(url_for('list_stories', project_id=project_id, requirement_id=requirement_id))
+        return redirect(url_for('stories.list_stories', project_id=project_id, requirement_id=requirement_id))
     return render_template('create_story.html', title='New story',
                            form=form, legend='New story')
 
@@ -51,7 +51,7 @@ def add_story(project_id, requirement_id, story_id):
         db.session.add(story)
         db.session.commit()
         flash('Your story has been created!', 'success')
-        return redirect(url_for('list_stories'))
+        return redirect(url_for('stories.list_stories'))
     return render_template('stories.html', title='New story',
                            form=form, legend='New story', requirement_id=requirement.id, project_id=project.id, story=story.id)
 
@@ -66,7 +66,7 @@ def update_story(project_id, requirement_id, story_id):
         story.content = form.content.data
         db.session.commit()
         flash('Your story has been updated!', 'success')
-        return redirect(url_for('list_stories', requirement_id=requirement.id, project_id=project_id, story=story.id))
+        return redirect(url_for('stories.list_stories', requirement_id=requirement.id, project_id=project_id, story=story.id))
     elif request.method == 'GET':
         form.title.data = story.title
         form.content.data = story.content
@@ -80,4 +80,4 @@ def delete_story(project_id, requirement_id,story_id):
     db.session.delete(story)
     db.session.commit()
     flash('Your story has been deleted!', 'success')
-    return redirect(url_for('list_stories', project_id=project_id,requirement_id=requirement_id))
+    return redirect(url_for('stories.list_stories', project_id=project_id,requirement_id=requirement_id))
