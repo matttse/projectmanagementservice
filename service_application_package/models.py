@@ -17,6 +17,9 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     projects = db.relationship('Project', backref='author', lazy=True)
+    
+    def __init__(self, username):
+        self.username = username
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -42,8 +45,11 @@ class Project(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    def __init__(self, title):
+        self.title = title
+
     def __repr__(self):
-        return f"Project('{self.title}', '{self.date_posted}')"
+        return f"Project('{self.title}', '{self.date_posted}', '{self.id}')"
 
 class Requirement(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -70,9 +76,12 @@ class Story(db.Model):
 class Issue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    content = db.Column(db.Text, nullable=False)
+    issue_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    issue_description = db.Column(db.Text, nullable=False)
+    open_by = db.Column(db.Text, nullable=False)
+    priority = db.Column(db.Text, nullable=False)
+    completed_date = db.Column(db.DateTime, nullable=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
 
     def __repr__(self):
-        return f"Requirement('{self.title}', '{self.date_posted}')"
+        return f"Issue('{self.title}', '{self.issue_date}')"
