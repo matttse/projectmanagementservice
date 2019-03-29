@@ -5,15 +5,22 @@
     {% if issues|length > 0 %}
         {% for issue in issues %}
           <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + issue.author.image_file) }}">
             <div class="media-body">
               <div class="article-metadata">
-                <a class="mr-2" href="{{ url_for('users.user_projects', username=issue.author.username) }}">{{ issue.author.username }}</a>
-                <small class="text-muted">{{ issue.date_posted.strftime('%Y-%m-%d') }}</small>
+                <small class="text-muted">{{ issue.issue_date.strftime('%Y-%m-%d') }}</small>
               </div>
               <div class="row justify-content-between">
-                <div class="col">
-                  <p class="article-content">{{ issue.content }}</p>
+                <div class="col">Description:
+                  <p class="article-content">{{ issue.issue_description }}</p>
+                </div>
+                <div class="col">Priority:
+                  <p class="article-content">{{ issue.priority }}</p>
+                </div>
+                <div class="col">Open_by:
+                  <p class="article-content">{{ issue.open_by }}</p>
+                </div>
+                <div class="col">Project:
+                  <p class="article-content">{{ issue.project_id }}</p>
                 </div>
               </div>
             </div>

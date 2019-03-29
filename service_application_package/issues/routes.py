@@ -23,7 +23,7 @@ def new_issue():
         priority=form.priority.data,
         completed_date=form.completed_date.data,
         open_by=form.opened_by.data,
-        project=form.project.data)
+        project_id=form.project.data)
         db.session.add(issue)
         db.session.commit()
         flash('Your issue has been created!', 'success')
@@ -57,7 +57,7 @@ def update_issue(issue_id):
         priority=form.priority.data,
         completed_date=form.completed_date.data,
         open_by=form.opened_by.data,
-        project=form.project.id)
+        project_id=form.project.data)
         db.session.commit()
         flash('Your issue has been updated!', 'success')
         return redirect(url_for('issues.list_issues', issue_id=issue.id))

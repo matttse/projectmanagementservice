@@ -10,8 +10,8 @@ class IssueForm(FlaskForm):
     issue_date = DateField('Issue Date', format='%m/%d/%Y', validators=[DataRequired()], default=datetime.today)
     priority = TextAreaField('Priority', validators=[DataRequired()])
     completed_date = DateField('Completed Date', format='%m/%d/%Y', validators=(validators.Optional(),))
-    opened_by = SelectField('Opened By', validators=[DataRequired()])
-    project = SelectField('Project Name', validators=[DataRequired()])
+    opened_by = SelectField('Opened By', validators=[DataRequired()], coerce=int)
+    project = SelectField('Project Name', validators=[DataRequired()], coerce=int)
     submit = SubmitField('Submit New Issue')
 
     def __init__(self, *args, **kwargs):
