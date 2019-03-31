@@ -29,12 +29,14 @@ def create_app(config_class=Config):
     from service_application_package.stories.routes import stories
     from service_application_package.issues.routes import issues
     from service_application_package.main.routes import main
+    from service_application_package.chat.routes import chat
     from service_application_package.errors.handlers import errors
     application.register_blueprint(users)
     application.register_blueprint(projects)
     application.register_blueprint(requirements)
     application.register_blueprint(stories)
     application.register_blueprint(issues)
+    application.register_blueprint(chat)
     application.register_blueprint(main)
     application.register_blueprint(errors)
 
