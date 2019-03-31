@@ -1,61 +1,78 @@
 {% extends "layout.html" %}
 {% block content %}
-{% block title %}Issues{% endblock %}
-{% block head %}<link rel="stylesheet" href="{{ url_for('static',filename='css/mainpage.css') }}">{% endblock %}
-{% block main %}
-
-
 
     <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">Issue List</div>
+  <h2 class="panel-heading">Issue List</h2>
+        <a role="button" class="btn btn-secondary btn-lg" style = "float: right;" href= {{ url_for('add_issue') }}>New Issue</a>
+
 
   <!-- Table -->
-  <table class="table">
-    <tr>
+  <table class="table table-striped">
+
+      <thead>
+      <tr>
         <th>#</th>
         <th>Title</th>
         <th>Author</th>
         <th>Date</th>
-        <th>Request Completed Date</th>
+        <th>Complete Before</th>
         <th>Priority</th>
     </tr>
-    <tr>
-        <th>1</th>
-        <td><a href="#">Issue 1Issue 1Issue 1</td>
-        <td>Guanhang</td>
-        <td>2019.03.23</td>
-        <td>2019.05.05 23:59:59</td>
-        <td class="ntd_issue">Nice to do</td>
+      </thead>
+      <tbody>
+{#{% for issue in issues %}#}
+{#      <tr>#}
+{#        <th>{{ issue.id }}</th>#}
+{#            <td><a href="#">{{ issue.title }}</a></td>#}
+{#        <td>{{ issue.author }}</td>#}
+{#        <td>{{ issue.date_posted }}</td>#}
+{#        <td>{{ issue.date_request }}</td>#}
+{#        <td class="ntd_issue" style = "color: darkgreen">{{ issue.priority }}</td>#}
+{#    </tr>#}
+{#{% endfor %}#}
 
-    </tr><tr>
 
-        <th>2</th>
-        <td><a href="#">Issue 1444</td>
-        <td>Kevin</td>
-        <td>2019.03.23</td>
-        <td>2019.05.05 23:59:59</td>
-        <td class="urgent_issue">Urgent</td>
+{#      <tr>#}
+{##}
+{#        <th>{{  }}</th>#}
+{#            <td><a href="#">Issue 1Issue 1Issue 1</a></td>#}
+{#        <td>Guanhang</td>#}
+{#        <td>2019.03.23</td>#}
+{#        <td>2019.05.05</td>#}
+{#        <td class="ntd_issue" style = "color: darkgreen">Nice to do</td>#}
+{##}
+{##}
+{#    </tr>#}
+{#<tr>#}
+{##}
+{#        <th>2</th>#}
+{#        <td><a href="#">Issue 1444</td>#}
+{#        <td>Kevin</td>#}
+{#        <td>2019.03.23</td>#}
+{#        <td>2019.05.05</td>#}
+{#        <td class="urgent_issue"  style = "color: red">Urgent</td>#}
+{##}
+{#    </tr><tr>#}
+{##}
+{#        <th>3</th>#}
+{#        <td><a href="#">Issue 33</td>#}
+{#        <td>Matt</td>#}
+{#        <td>2019.03.23</td>#}
+{#        <td>2019.05.05</td>#}
+{#        <td class="important_issue" style = "color: orangered;">Improtant</td>#}
+{#    </tr><tr>#}
+{##}
+{#        <th>4</th>#}
+{#        <td><a href="#">Issue 2</td>#}
+{#        <td>Peter</td>#}
+{#        <td>2019.03.23</td>#}
+{#        <td>2019.05.05</td>#}
+{#        <td class="completed_issue" style = "color: #225599;">Completed</td>#}
+{#</tr>#}
 
-    </tr><tr>
-
-        <th>3</th>
-        <td><a href="#">Issue 33</td>
-        <td>Matt</td>
-        <td>2019.03.23</td>
-        <td>2019.05.05 23:59:59</td>
-        <td class="important_issue">Improtant</td>
-    </tr><tr>
-
-        <th>4</th>
-        <td><a href="#">Issue 2</td>
-        <td>Peter</td>
-        <td>2019.03.23</td>
-        <td>2019.05.05 23:59:59</td>
-        <td class="completed_issue">Completed</td>
-</tr>
+      </tbody>
 
   </table>
 </div>
 {% endblock %}
-{% endblock content %}
