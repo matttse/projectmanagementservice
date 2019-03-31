@@ -1,6 +1,8 @@
 from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
+from flask import session
+from service_application_package.chat import myredis
 
 chatroom = Blueprint('chatroom', __name__)
 
