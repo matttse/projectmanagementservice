@@ -1,11 +1,12 @@
 import os
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request, abort
+from flask import render_template, url_for, flash, redirect, request, abort, session
 from pmsapp import application, db, bcrypt
 from pmsapp.forms import RegistrationForm, LoginForm, UpdateAccountForm, ProjectForm, RequirementForm
 from pmsapp.models import User, Project, Requirement
 from flask_login import login_user, current_user, logout_user, login_required
+from pmsapp import myredis
 
 
 @application.route("/")
@@ -17,9 +18,22 @@ def home():
 def issues():
     return render_template('issues.html', title='Issues')
 
-@application.route("/chat")
+@application.route("/chat",methods=['GET'])
 def chat():
-    return render_template('chat.html', title='Chat')
+    if not current_user.is_authenticated:
+        return redirect(url_for('/login'))
+    if not request.args.get("room") is None:
+        room = request.args.get("room")
+    else:
+        room = 'Public' # default public room
+    session['room'] = room
+    # search chat record
+    record = myredis.lrange(room+'-record',0,myredis.llen(room+'-record'))
+    record = [str(rec, encoding = "utf8") for rec in record]
+    # search channel
+    chatroom = myredis.lrange('chatroom',0,myredis.llen('chatroom'))
+    chatroom = [str(chatr, encoding = "utf8") for chatr in chatroom]
+    return render_template('chat.html', title='Chat', record=record, room=room, username=current_user.username, channel=chatroom)
 # 
 # Accounts
 # 
@@ -46,6 +60,8 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
+            session.permanent=True
+            session['username'] = user.username # save username to session
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
