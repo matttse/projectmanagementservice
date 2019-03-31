@@ -1,7 +1,6 @@
 from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
-from service_application_package.chat.forms import ChatForm
 from gevent import monkey
 monkey.patch_all()
 from flask import session
