@@ -1,6 +1,9 @@
 from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
+from service_application_package.chat.forms import ChatForm
+
+chat = Blueprint('chat', __name__)
 from gevent import monkey
 monkey.patch_all()
 from flask import session
@@ -9,9 +12,10 @@ socketio = SocketIO()
 from pmsapp import myredis
 import json
 
-socketio = Blueprint('chat', __name__)
 
-socketio.route("/chat",methods=['GET'])
+chat = Blueprint('chat', __name__)
+
+chat.route("/chat",methods=['GET'])
 def chat():
     if not current_user.is_authenticated:
         return redirect(url_for('/login'))
@@ -27,6 +31,7 @@ def chat():
     chatroom = myredis.lrange('chatroom',0,myredis.llen('chatroom'))
     chatroom = [str(chatr, encoding = "utf8") for chatr in chatroom]
     return render_template('chat.html', title='Chat', record=record, room=room, username=current_user.username, channel=chatroom)
+
 
 # socket chat
 @socketio.on('connect', namespace='/chats')
