@@ -6,7 +6,7 @@ monkey.patch_all()
 from flask import session
 from flask_socketio import SocketIO, emit, join_room, leave_room
 socketio = SocketIO()
-from pmsapp import myredis
+from service_application_package.chat import myredis
 import json
 
 
