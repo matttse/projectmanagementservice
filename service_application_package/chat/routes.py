@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 chat = Blueprint('chat', __name__)
 
 
-@chat.route("/chat")
+@chat.route("/chat",methods=['GET'])
 def chat():
     if not current_user.is_authenticated:
         return redirect(url_for('/login'))
