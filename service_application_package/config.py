@@ -1,5 +1,5 @@
 import os
-
+from datetime import timedelta
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -9,3 +9,4 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('EMAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('EMAIL_PASS')
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
