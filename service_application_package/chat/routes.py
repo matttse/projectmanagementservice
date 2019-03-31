@@ -2,13 +2,12 @@ from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
 
-chat = Blueprint('chat', __name__)
+chatroom = Blueprint('chatroom', __name__)
 
 
-@chat.route("/chat",methods=['GET'])
+@chatroom.route("/chat",methods=['GET'])
+@login_required
 def chat():
-    if not current_user.is_authenticated:
-        return redirect(url_for('/login'))
     if not request.args.get("room") is None:
         room = request.args.get("room")
     else:
