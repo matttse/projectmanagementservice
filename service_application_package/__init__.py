@@ -28,7 +28,7 @@ def create_app(config_class=Config):
     from service_application_package.stories.routes import stories
     from service_application_package.issues.routes import issues
     from service_application_package.main.routes import main
-    from service_application_package.chat.routes import chatroom
+    from service_application_package.chat.routes import chatroombp
     from service_application_package.errors.handlers import errors
     application.register_blueprint(users)
     application.register_blueprint(projects)
@@ -36,7 +36,7 @@ def create_app(config_class=Config):
     application.register_blueprint(stories)
     application.register_blueprint(issues)
     application.register_blueprint(main)
-    application.register_blueprint(chatroom)
+    application.register_blueprint(chatroombp)
     application.register_blueprint(errors)
 
     return application

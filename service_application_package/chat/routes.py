@@ -4,10 +4,10 @@ from flask_login import current_user, login_required
 from flask import session
 from service_application_package.chat import myredis
 
-chatroom = Blueprint('chatroom', __name__)
+chatroombp = Blueprint('chatroombp', __name__)
 
 
-@chatroom.route("/chat",methods=['GET'])
+@chatroombp.route("/chat",methods=['GET'])
 @login_required
 def chat():
     if not request.args.get("room") is None:

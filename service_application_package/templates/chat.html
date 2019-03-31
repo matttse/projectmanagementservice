@@ -220,7 +220,7 @@
             var password = $('#chat_room_select').val()
             var channel = $('#chat_room_select option:selected').text();
             if(input_password == password){
-                window.location.href="{{ url_for('chat') }}?room="+channel
+                window.location.href="{{ url_for('chatroombp.chat') }}?room="+channel
             }else{
                 alert("Password error, failure to join chat room")
             }
