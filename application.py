@@ -4,4 +4,4 @@ application = create_app()
 
 if __name__ == '__main__':
 	socketio.init_app(application)
-    application.run(debug=True)
+	application.run(debug=True)
