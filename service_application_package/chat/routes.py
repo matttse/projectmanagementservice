@@ -5,14 +5,13 @@ from gevent import monkey
 monkey.patch_all()
 from flask import session
 from flask_socketio import SocketIO, emit, join_room, leave_room
-socketio = SocketIO()
 from service_application_package.chat import myredis
 import json
 
+socketio = SocketIO()
+socketio = Blueprint('chat', __name__)
 
-chat = Blueprint('chat', __name__)
-
-chat.route("/chat",methods=['GET'])
+socketio.route("/chat",methods=['GET'])
 def chat():
     if not current_user.is_authenticated:
         return redirect(url_for('/login'))
