@@ -8,7 +8,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from service_application_package.chat import myredis
 import json
 
-socketio = SocketIO()
+chatsocket = SocketIO()
 socketio = Blueprint('chat', __name__)
 
 socketio.route("/chat",methods=['GET'])
@@ -30,17 +30,17 @@ def chat():
 
 
 # socket chat
-@socketio.on('connect', namespace='/chats')
+@chatsocket.on('connect', namespace='/chats')
 def test_connect():
     print('Client connected')
 
 
-@socketio.on('disconnect', namespace='/chats')
+@chatsocket.on('disconnect', namespace='/chats')
 def test_disconnect():
     print('Client disconnected')
 
 
-@socketio.on('join', namespace='/chats')
+@chatsocket.on('join', namespace='/chats')
 def on_join(data):
     username = session.get('username')
     room = session.get('room')
@@ -51,7 +51,7 @@ def on_join(data):
     rdata = {'username':username,'parlist':parlist}
     emit('join', rdata, room=room)
 
-@socketio.on('leave', namespace='/chats')
+@chatsocket.on('leave', namespace='/chats')
 def on_leave(data):
     username = session.get('username')
     room = session.get('room')
@@ -63,7 +63,7 @@ def on_leave(data):
     emit('leave', rdata, room=room)
 
 
-@socketio.on('send', namespace='/chats')
+@chatsocket.on('send', namespace='/chats')
 def on_send(data):
     username = session.get('username')
     room = session.get('room')
@@ -75,7 +75,7 @@ def on_send(data):
 
 
 # create chatroom
-@socketio.on('create', namespace='/chats')
+@chatsocket.on('create', namespace='/chats')
 def on_create(data):
     myredis.lpush('chatroom',data)#storage chat room to redis
     chatroom = myredis.lrange('chatroom',0,myredis.llen('chatroom'))
