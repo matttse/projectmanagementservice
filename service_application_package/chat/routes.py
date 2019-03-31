@@ -1,10 +1,11 @@
-from flask import render_template, request, Blueprint
-from service_application_package.models import Project
+from flask import (render_template, url_for, flash,
+                   redirect, request, abort, Blueprint)
+from flask_login import current_user, login_required
 
 chat = Blueprint('chat', __name__)
 
 
-@chat.route("/")
+@chat.route("/chat")
 def chat():
     if not current_user.is_authenticated:
         return redirect(url_for('/login'))

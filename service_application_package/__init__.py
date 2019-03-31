@@ -35,8 +35,8 @@ def create_app(config_class=Config):
     application.register_blueprint(requirements)
     application.register_blueprint(stories)
     application.register_blueprint(issues)
-    application.register_blueprint(chat)
     application.register_blueprint(main)
+    application.register_blueprint(chat)
     application.register_blueprint(errors)
 
     return application
