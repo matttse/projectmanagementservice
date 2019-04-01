@@ -68,7 +68,7 @@ class Story(db.Model):
         return f"Story('{self.title}', '{self.date_posted}')"
 
 class Issue(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
     issue_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     issue_description = db.Column(db.Text, nullable=False)
