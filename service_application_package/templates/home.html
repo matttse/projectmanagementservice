@@ -11,7 +11,6 @@
 </div>
     {% for project in projects.items %}
         <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + project.author.image_file) }}">
           <div class="media-body">
             <div class="article-metadata">
               <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>

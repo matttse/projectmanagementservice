@@ -1,38 +1,69 @@
 {% extends "layout.html" %}
 {% block content %}
+   <div class="panel panel-default">
+  <h2 class="panel-heading">Issue List</h2>
+        <a role="button"  class="btn btn-secondary btn-lg" style = "float: right;" href="{{ url_for('issues.new_issue') }}">New Issue</a>
+
+
+
   {% if projects|length > 0 %}
     <div class="container mx-auto my-auto py-3 px-1">
+    <table class="table table-striped">
+
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Date</th>
+        <th>Complete Before</th>
+        <th>Priority</th>
+    </tr>
+      </thead>
+
     {% if issues|length > 0 %}
         {% for issue in issues %}
-          <article class="media content-section">
-            <div class="media-body">
-              <div class="article-metadata">
-                <small class="text-muted">{{ issue.issue_date.strftime('%Y-%m-%d') }}</small>
-              </div>
-              <div class="row justify-content-between">
-                <div class="col">Description:
-                  <p class="article-content">{{ issue.issue_description }}</p>
-                </div>
-                <div class="col">Priority:
-                  <p class="article-content">{{ issue.priority }}</p>
-                </div>
-                <div class="col">Open_by:
-                  <p class="article-content">{{ issue.open_by }}</p>
-                </div>
-                <div class="col">Project:
-                  <p class="article-content">{{ issue.project_id }}</p>
-                </div>
-              </div>
-            </div>
-            </div>
-          </article>   
+            <tbody>
+            <th>{{ issue.id - 1 }}</th>
+            <td><a href="#">{{issue.title}}</td>
+            <td>{{ issue.open_by }}</td>
+            <td>{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ issue.completed_date}}</td>
+            <td>{{ issue.priority }}</td>
+
+            </tbody>
+{#          <article class="media content-section">#}
+{#            <div class="media-body">#}
+{#              <div class="article-metadata">#}
+{#                <small class="text-muted">{{ issue.issue_date.strftime('%Y-%m-%d') }}</small>#}
+{#              </div>#}
+{#              <div class="row justify-content-between">#}
+{#                <div class="col">Description333:#}
+{#                  <p class="article-content">{{ issue.issue_description }}</p>#}
+{#                </div>#}
+{#                <div class="col">Priority1212121:#}
+{#                  <p class="article-content">{{ issue.priority }}</p>#}
+{#                </div>#}
+{#                <div class="col">Open_by:#}
+{#                  <p class="article-content">{{ issue.open_by }}</p>#}
+{#                </div>#}
+{#                <div class="col">Project:#}
+{#                  <p class="article-content">{{ issue.project_id }}</p>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#            </div>#}
+{#          </article>#}
         {% endfor %}
+        </table>
       {% else %}
         <div class="alert alert-secondary">No Issues Found</div>
       {% endif %}
-        <a id="add-project-btn" class="btn btn-primary" href="{{ url_for('issues.new_issue') }}"><strong>Add Issue</strong></a>    
+{#        <a id="add-project-btn" class="btn btn-primary" href="{{ url_for('issues.new_issue') }}"><strong>Add Issue</strong></a>    #}
   {% else %}
     <div class="alert alert-secondary">No Projects to Add Issues</div>
   {% endif %}
-  </div>
+   </div>
+
   {% endblock content %}
+
