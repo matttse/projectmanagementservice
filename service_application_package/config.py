@@ -10,5 +10,3 @@ class Config:
     MAIL_USERNAME = os.environ.get('EMAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('EMAIL_PASS')
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
-    SESSION_TYPE = 'redis'
-    SESSION_REDIS = Redis(host='pmschat.rpwclh.ng.0001.use1.cache.amazonaws.com', port=6379, db=0)
