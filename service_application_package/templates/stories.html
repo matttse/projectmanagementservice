@@ -5,11 +5,7 @@
       {% for story in stories %}
         <article class="media content-section">
           <div class="media-body">
-            <div {% if story.status == 'new' %} class="article-metadata-new" 
-                 {% elif story.status == 'in-progress' %} class="article-metadata-inprogress"
-                 {% elif story.status == 'done' %} class="article-metadata-done"
-                 {% else %} class="article-metadata"
-                 {% endif %}>
+            <div class="article-metadata" >
               <small class="text-muted">{{ story.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
             <h2>
