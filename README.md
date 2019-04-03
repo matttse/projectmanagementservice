@@ -31,7 +31,7 @@ source [env name]/bin/activate
 
 run to ensure libraries are installed
 ```
-pip install flask flask_sqlalchemy flask_bcrypt flask_login flask_mail flask_wtf Pillow pymysql
+pip install flask flask_sqlalchemy flask_bcrypt flask_login flask_mail flask_wtf Pillow pymysql redis gevent flask_socketio
 
 ```
 
