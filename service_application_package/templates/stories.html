@@ -5,7 +5,7 @@
       {% for story in stories %}
         <article class="media content-section">
           <div class="media-body">
-            <div class="article-metadata">
+            <div class="article-metadata" >
               <small class="text-muted">{{ story.date_posted.strftime('%Y-%m-%d') }}</small>
             </div>
             <h2>
@@ -14,6 +14,9 @@
             <div class="row justify-content-between">
               <div class="col">
                 <p class="article-content">{{ story.content }}</p>
+              </div>
+              <div class="col">Status:
+                <p class="article-content">{{ story.status }}</p>
               </div>
               <div class="col">
                   <div class="float-right">
@@ -36,5 +39,5 @@
     {% endif %}
     <a id="add-story-btn" class="btn btn-primary" href="{{ url_for('stories.new_story', project_id=project_id, requirement_id=requirement_id) }}"><strong>Add Story</strong></a>
   </div>
-    <!-- requirements container -->
+    <!-- Stories container -->
   {% endblock content %}

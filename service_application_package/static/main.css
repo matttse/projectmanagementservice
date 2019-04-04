@@ -54,7 +54,28 @@ a.article-title:hover {
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.article-metadata-new {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3;
+  background: lightblue;
+}
+
+.article-metadata-inprogress {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3;
+  background: yellow;
+}
+
+.article-metadata-done {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3;
+  background: yellowgreen;
 }
 
 .article-metadata a:hover {
@@ -78,3 +99,27 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+.New{
+  color: white;
+}
+
+.InProgress{
+  color: blue;
+}
+
+.Done{
+  color: green;
+}
+
+.Bug{
+  color: red;
+}
+
+
+
+
+
+
+
+
