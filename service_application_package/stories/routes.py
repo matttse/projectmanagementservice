@@ -16,7 +16,11 @@ stories = Blueprint('stories', __name__)
 def new_story(project_id, requirement_id):
     form = StoryForm()
     if form.validate_on_submit():
-        story = Story(title=form.title.data, content=form.content.data, project_id=project_id,requirement_id=requirement_id,status=form.status.data)
+        story = Story(title=form.title.data
+                    , content=form.content.data
+                    , project_id=project_id
+                    ,requirement_id=requirement_id
+                    ,status=form.status.data)
         db.session.add(story)
         db.session.commit()
         flash('Your story has been created!', 'success')
@@ -47,7 +51,11 @@ def add_story(project_id, requirement_id, story_id):
     story = Story.query.get_or_404(story_id)
     form = StoryForm()
     if form.validate_on_submit():
-        story = Story(title=form.title.data, content=form.content.data, project_id=project_id, requirement_id=requirement_id, status=form.content.status)        
+        story = Story(title=form.title.data
+                , content=form.content.data
+                , project_id=project_id
+                , requirement_id=requirement_id
+                , status=form.content.status)        
         db.session.add(story)
         db.session.commit()
         flash('Your story has been created!', 'success')
@@ -64,9 +72,10 @@ def update_story(project_id, requirement_id, story_id):
     if form.validate_on_submit():
         story.title = form.title.data
         story.content = form.content.data
+        story.status = form.status.data
         db.session.commit()
         flash('Your story has been updated!', 'success')
-        return redirect(url_for('stories.list_stories', requirement_id=requirement.id, project_id=project_id, story=story.id))
+        return redirect(url_for('stories.list_stories', requirement_id=requirement_id, project_id=project_id, story=story.id))
     elif request.method == 'GET':
         form.title.data = story.title
         form.content.data = story.content
