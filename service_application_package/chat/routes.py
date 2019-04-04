@@ -10,15 +10,12 @@ chatroombp = Blueprint('chatroombp', __name__)
 @chatroombp.route("/chat",methods=['GET'])
 @login_required
 def chat():
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    # session save username
-    session.permanent = True
-    session['username'] = user #save username to session
     if not request.args.get("room") is None:
         room = request.args.get("room")
     else:
         room = 'Public' # default public room
     session['room'] = room
+    session.permanent = True
     # search chat record
     record = myredis.lrange(room+'-record',0,myredis.llen(room+'-record'))
     record = [str(rec, encoding = "utf8") for rec in record]

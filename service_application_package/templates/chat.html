@@ -8,7 +8,7 @@
                 <div class="panel-heading">
                     <div class="input-group">
                         <select class="form-control" id="chat_room_select">
-                            <option>Public</option>
+                            <option>{{ room }}</option>
                         </select>
                         <span class="input-group-btn">
                             <button class="btn btn-primary" type="button" id="id-join" data-toggle="modal" data-target="#join_room">Join Room<span
@@ -28,7 +28,7 @@
                         <div class="col col-lg-3">
                             <div class="card" style="height:400px">
                                 <div class="card-header">
-                                    Room -【{{ room}}】<br>
+                                    Room -【{{ room }}】<br>
                                     Online Participant
                                 </div>
                                 <div class="card-body">
@@ -127,13 +127,13 @@
     //Get the data parsing population from redis
     function fillData() {
          //fill chat record
-         var recordList = {{ record|tojson }} //use `|tojson` to process data from flask
+         var recordList = {{ record | tojson }}; //use `|tojson` to process data from flask
         recordList.forEach(v => {
             data = JSON.parse(v)
             scrollTxt("【 " + data.username + " 】 - " + data.time + "\n\t" + data.message)
         });
         //fill channel to select option
-        var channelList = {{ channel|tojson}}
+        var channelList = {{ channel | tojson }};
         getChannel(channelList)
     }
     //Populates chat channel data to select
@@ -157,9 +157,11 @@
         fillData()
 
         var namespace = '/chats'
-        var url = `ws://${document.domain}:${location.port}${namespace}`
+        // var url = 'ws://http://projectmanagementservice.us-east-1.elasticbeanstalk.com/socket.io/1/websocket'
+        var url = 'wss://projectmanagementservicesocket.azurewebsites.net/'
         socket = io.connect(url, { transports: ['websocket'] })
-
+        // var url = 'projectmanagementservicechat.redis.cache.windows.net:6380'
+        // socket = io.connect(url)
         //connected
         socket.on('connect', function () {
             console.log('web connected')

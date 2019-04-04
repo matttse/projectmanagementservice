@@ -8,5 +8,5 @@ port = os.environ.get('REDIS_PORT')
 password = os.environ.get('REDIS_PW')
 
 
-# myredis = redis.Redis(host=url,port=port,password=password)
-myredis = redis.Redis(host='localhost',port=6379,db=0)
+myredis = redis.Redis(host=url,port=port,password=password,ssl=True)
+# myredis = redis.Redis(host='localhost',port=6379,db=0)
