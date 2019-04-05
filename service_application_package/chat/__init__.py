@@ -3,7 +3,7 @@ import redis
 import os
 
 
-url = os.environ.get('REDISCLOUD_URL')
+url = os.environ.get('REDIS_URL')
 port = os.environ.get('REDIS_PORT')
 password = os.environ.get('REDIS_PW')
 
