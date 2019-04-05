@@ -19,10 +19,8 @@ Pillow==5.4.1
 portalocker==1.4.0
 pycparser==2.19
 PyMySQL==0.9.3
-pypiwin32==223
 python-engineio==3.5.0
 python-socketio==3.1.2
-pywin32==224
 PyYAML==5.1
 redis==3.2.1
 six==1.12.0
