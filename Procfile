@@ -1,1 +1,1 @@
-web: gunicorn service_application_package:application --log-file
+web: gunicorn application:application --log-file
