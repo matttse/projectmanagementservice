@@ -157,11 +157,9 @@
         fillData()
 
         var namespace = '/chats'
-        // var url = 'ws://http://projectmanagementservice.us-east-1.elasticbeanstalk.com/socket.io/1/websocket'
-        var url = 'wss://projectmanagementservicesocket.azurewebsites.net/'
+        var url = ''//todo
         socket = io.connect(url, { transports: ['websocket'] })
-        // var url = 'projectmanagementservicechat.redis.cache.windows.net:6380'
-        // socket = io.connect(url)
+        
         //connected
         socket.on('connect', function () {
             console.log('web connected')
