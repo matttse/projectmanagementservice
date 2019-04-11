@@ -1,0 +1,254 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container" style="padding-bottom:100px;">
+    <div class="row " style="padding-top:40px;">
+        <div class="col-md-12">
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="input-group">
+                        <select class="form-control" id="chat_room_select">
+                            <option>Public</option>
+                        </select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" id="id-join" data-toggle="modal" data-target="#join_room">Join Room<span
+                                    class="glyphicon glyphicon-send"></span></button>
+                            <button class="btn btn-danger" type="button" id="id-create" data-toggle="modal" data-target="#create_room">Create Room<span
+                                    class="glyphicon glyphicon-send"></span></button>
+                        </span>
+                    </div><br><br>
+                    <strong><span class="glyphicon glyphicon-list"></span> Chat History</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col">
+                            <textarea id="responseText" rows="10" cols="20" readonly="readonly" class="form-control"
+                                style="height:400px;overflow:scroll; overflow-x:hidden;resize:none;"></textarea>
+                        </div>
+                        <div class="col col-lg-3">
+                            <div class="card" style="height:400px">
+                                <div class="card-header">
+                                    Room -【{{ room}}】<br>
+                                    Online Participant
+                                </div>
+                                <div class="card-body">
+                                    <ul id="parlist" class="list-group list-group-flush"
+                                        style="height:300px;overflow-y:scroll;">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" style="padding-top:10px;">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Enter Message" id="id-input" autofocus />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" type="button" id="id-send">SEND <span
+                                    class="glyphicon glyphicon-send"></span></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--create modal-->
+<div class="modal" id="create_room" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Create Room</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <label>ChatRoom Name</label>
+                    <input type="text" class="form-control" id="modal_input_chatroom_name">
+                    <label>ChatRoom Password</label>
+                    <input type="text" class="form-control" id="modal_input_chatroom_password">
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="modal_create_room" class="btn btn-primary">Create</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modal_create_close">Close</button>
+            </div>
+          </div>
+    </div>
+</div>
+<!--join modal-->
+<div class="modal" id="join_room" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Join Room</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <label>ChatRoom Password</label>
+                        <input type="text" class="form-control" id="modal_join_input_chatroom_password">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" id="modal_join_room" class="btn btn-primary">Join</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modal_join_close">Close</button>
+                </div>
+              </div>
+        </div>
+    </div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+<script>
+    //Populates chat messages to textarea
+    function scrollTxt(txt) {
+        var obj = document.getElementById("responseText");
+        obj.value += txt + "\n";
+        obj.scrollTop = obj.scrollHeight;//Keep the latest news at the bottom
+    }
+    //Get system time
+    Date.prototype.Format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1, //month
+            "d+": this.getDate(), //day
+            "H+": this.getHours(), //hour
+            "m+": this.getMinutes(), //minutes
+            "s+": this.getSeconds(), //seconds
+            "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+            "S": this.getMilliseconds() //ms
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    //Get the data parsing population from redis
+    function fillData() {
+        //fill chat record
+        var recordList = {{ record|tojson }} //use `|tojson` to process data from flask
+        recordList.forEach(v => {
+            data = JSON.parse(v)
+            scrollTxt("【 " + data.username + " 】 - " + data.time + "\n\t" + data.message)
+        });
+        //fill channel to select option
+        var channelList = {{ channel|tojson}}
+        getChannel(channelList)
+    }
+    //Populates chat channel data to select
+    function getChannel(data){
+        $("#chat_room_select option").remove();
+            data.forEach(v=>{
+                json_v = JSON.parse(v)
+                for(var item in json_v){
+                    if(item == '{{ room }}'){
+                        $("#chat_room_select").append("<option selected=\"selected\" value='"+json_v[item]+"'>"+item+"</option>")
+                    }else{
+                        $("#chat_room_select").append("<option value='"+json_v[item]+"'>"+item+"</option>")
+                    }
+                }
+        });
+        console.log(data)
+    }
+    var socket
+    var __main = function () {
+        //fill data from redis
+        fillData()
+
+        var namespace = '/chats'
+        var url = `ws://${document.domain}:${location.port}${namespace}`
+        socket = io.connect(url, { transports: ['websocket'] })
+
+        //connected
+        socket.on('connect', function () {
+            console.log('web connected')
+        })
+        window.onbeforeunload = function () {
+            //leave room
+            socket.emit('leave', "", function () {
+            })
+            return "Are you sure you want to leave";
+        }
+        //Get all the rooms
+        socket.on('create', function (data) {
+            getChannel(data)
+        })
+        //join room connect socket
+        socket.emit('join', "", function () {
+
+        })
+        //Receive user join message
+        socket.on('join', function (data) {
+            $('#parlist li').remove()
+            var parlist = data.parlist
+            parlist.forEach(v => {
+                if (v == '{{ username }}') {
+                    $('#parlist').append('<li class="list-group-item active">' + v + '</li>');
+                } else {
+                    $('#parlist').append('<li class="list-group-item">' + v + '</li>');
+                }
+            });
+            scrollTxt("【 " + data.username + '】 has entered the room at ' + new Date().Format("yyyy-MM-dd HH:mm:ss"))
+        })
+        //Receive user leave message
+        socket.on('leave', function (data) {
+            $('#parlist li:contains(' + data.username + ')').remove();
+            scrollTxt("【 " + data.username + '】 has lefted the room at ' + new Date().Format("yyyy-MM-dd HH:mm:ss"))
+        })
+        //Receive chat messages
+        socket.on('message', function (data) {
+            scrollTxt("【 " + data.username + " 】 - " + data.time + "\n\t" + data.message)
+        })
+        //create room
+        $("#modal_create_room").click(function(){
+            var chatroom_name = $("#modal_input_chatroom_name").val()
+            var chatroom_password = $("#modal_input_chatroom_password").val()
+            if(chatroom_name != ''){
+                var data = {};
+                data[chatroom_name]=chatroom_password
+                socket.emit('create', JSON.stringify(data), function () {
+                    $("#modal_create_close").click();
+                })
+            }else{
+                alert("Please enter the name of the chat room")
+            }
+        });
+        //Join a chat room
+        $("#modal_join_room").click(function(){
+            var input_password = $("#modal_join_input_chatroom_password").val()
+            var password = $('#chat_room_select').val()
+            var channel = $('#chat_room_select option:selected').text();
+            if(input_password == password){
+                window.location.href="{{ url_for('chatroombp.chat') }}?room="+channel
+            }else{
+                alert("Password error, failure to join chat room")
+            }
+
+        });
+        //Send a message by button
+        $("#id-send").click(function () {
+            content = $("#id-input")[0].value
+            var data = { data: { message: content, time: new Date().Format("yyyy-MM-dd HH:mm:ss") } }
+            socket.emit('send', data, function () {
+                //Clear the input box
+                $("#id-input").val("")
+            })
+        });
+        //Send a message by enter
+        $(document).keydown(function (event) {
+            if (event.keyCode == 13) {
+                content = $("#id-input")[0].value
+                var data = { data: { message: content, time: new Date().Format("yyyy-MM-dd HH:mm:ss") } }
+                socket.emit('send', data, function () {
+                    //Clear the input box
+                    $("#id-input").val("")
+                })
+            }
+        });
+    }
+    __main()
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+
+{% endblock content %}

@@ -1,0 +1,308 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Issues Page</h1>
+
+<style type="text/css">
+  .form-label-left{
+      width:150px;
+  }
+  .form-line{
+      padding-top:12px;
+      padding-bottom:12px;
+  }
+  .form-label-right{
+      width:150px;
+  }
+  body, html{
+      margin:0;
+      padding:0;
+      background:#fff;
+  }
+
+  .form-all{
+      margin:0px auto;
+      padding-top:0px;
+      width:590px;
+      color:#555 !important;
+      font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, sans-serif;
+      font-size:14px;
+  }
+  .form-radio-item label, .form-checkbox-item label, .form-grading-label, .form-header{
+      color: false;
+  }
+
+</style>
+
+<style type="text/css" id="form-designer-style">
+
+    .form-all {
+      font-family: Lucida Grande, sans-serif;
+    }
+    .form-all .qq-upload-button,
+    .form-all .form-submit-button,
+    .form-all .form-submit-reset,
+    .form-all .form-submit-print {
+      font-family: Lucida Grande, sans-serif;
+    }
+    .form-all .form-pagebreak-back-container,
+    .form-all .form-pagebreak-next-container {
+      font-family: Lucida Grande, sans-serif;
+    }
+    .form-header-group {
+      font-family: Lucida Grande, sans-serif;
+    }
+    .form-label {
+      font-family: Lucida Grande, sans-serif;
+    }
+  
+    .form-label.form-label-auto {
+      
+    display: block;
+    float: none;
+    text-align: left;
+    width: 100%;
+  
+    }
+  
+    .form-line {
+      margin-top: 12px 36px 12px 36px px;
+      margin-bottom: 12px 36px 12px 36px px;
+    }
+  
+    .form-all {
+      width: 590px;
+    }
+  
+    .form-label-left,
+    .form-label-right,
+    .form-label-left.form-label-auto,
+    .form-label-right.form-label-auto {
+      width: 150px;
+    }
+  
+    .form-all {
+      font-size: 14px
+    }
+    .form-all .qq-upload-button,
+    .form-all .qq-upload-button,
+    .form-all .form-submit-button,
+    .form-all .form-submit-reset,
+    .form-all .form-submit-print {
+      font-size: 14px
+    }
+    .form-all .form-pagebreak-back-container,
+    .form-all .form-pagebreak-next-container {
+      font-size: 14px
+    }
+  
+    .supernova .form-all, .form-all {
+      background-color: #fff;
+      border: 1px solid transparent;
+    }
+  
+    .form-all {
+      color: #555;
+    }
+    .form-header-group .form-header {
+      color: #555;
+    }
+    .form-header-group .form-subHeader {
+      color: #555;
+    }
+    .form-label-top,
+    .form-label-left,
+    .form-label-right,
+    .form-html,
+    .form-checkbox-item label,
+    .form-radio-item label {
+      color: #555;
+    }
+    .form-sub-label {
+      color: #6f6f6f;
+    }
+  
+    .supernova {
+      background-color: undefined;
+    }
+    .supernova body {
+      background: transparent;
+    }
+  
+    .form-textbox,
+    .form-textarea,
+    .form-radio-other-input,
+    .form-checkbox-other-input,
+    .form-captcha input,
+    .form-spinner input {
+      background-color: undefined;
+    }
+  
+    .supernova {
+      background-image: none;
+    }
+    #stage {
+      background-image: none;
+    }
+  
+    .form-all {
+      background-image: none;
+    }
+  
+  .ie-8 .form-all:before { display: none; }
+  .ie-8 {
+    margin-top: auto;
+    margin-top: initial;
+  }
+  
+
+</style>
+</head>
+
+<body>
+  
+  <div class="form-all">
+    <ul class="form-section page-section">
+      <li id="cid_1" class="form-input-wide" data-type="control_head">
+        <div class="form-header-group ">
+          <div class="header-text httal htvam">
+            <h1 id="header_1" class="form-header" data-component="header">
+              Issue Tracking Form
+            </h1>
+          </div>
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_textbox" id="id_10">
+        <label class="form-label form-label-top form-label-auto" id="label_10" for="input_10">
+          Title
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_10" class="form-input-wide jf-required">
+          <input type="text" id="input_10" name="q10_title" data-type="input-textbox" class="form-textbox validate[required]" size="20" value="" data-component="textbox" required="" />
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_textarea" id="id_3">
+        <label class="form-label form-label-top form-label-auto" id="label_3" for="input_3">
+          Issue Description
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_3" class="form-input-wide jf-required">
+          <textarea id="input_3" class="form-textarea validate[required]" name="q3_issueDescription" cols="40" rows="6" data-component="textarea" required=""></textarea>
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_dropdown" id="id_4">
+        <label class="form-label form-label-top form-label-auto" id="label_4" for="input_4">
+          Opened By
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_4" class="form-input-wide jf-required">
+          <select class="form-dropdown validate[required]" id="input_4" name="q4_openedBy" style="width:200px" data-component="dropdown" required="">
+            <option value="">  </option>
+            <option value="Kevin"> Kevin </option>
+            <option value="Peter"> Peter </option>
+            <option value="Matt"> Matt </option>
+            <option value="Guanhang"> Guanhang </option>
+            <option value="Ryan"> Ryan </option>
+            <option value="Peng"> Peng </option>
+          </select>
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_dropdown" id="id_5">
+        <label class="form-label form-label-top form-label-auto" id="label_5" for="input_5">
+          Assigned To
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_5" class="form-input-wide jf-required">
+          <select class="form-dropdown validate[required]" id="input_5" name="q5_assignedTo" style="width:200px" data-component="dropdown" required="">
+            <option value="">  </option>
+            <option value="Kevin"> Kevin </option>
+            <option value="Peter"> Peter </option>
+            <option value="Matt"> Matt </option>
+            <option value="Guanhang"> Guanhang </option>
+            <option value="Ryan"> Ryan </option>
+            <option value="Peng"> Peng </option>
+          </select>
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_dropdown" id="id_6">
+        <label class="form-label form-label-top form-label-auto" id="label_6" for="input_6">
+          Priority
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_6" class="form-input-wide jf-required">
+          <select class="form-dropdown validate[required]" id="input_6" name="q6_priority" style="width:200px" data-component="dropdown" required="">
+            <option value="">  </option>
+            <option value="Nice to Do"> Nice to Do </option>
+            <option value="Important"> Important </option>
+            <option value="Urgent"> Urgent </option>
+          </select>
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_datetime" id="id_7">
+        <label class="form-label form-label-top form-label-auto" id="label_7" for="lite_mode_7">
+          Issue Date
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_7" class="form-input-wide jf-required">
+          <div data-wrapper-react="true">
+
+            <span class="form-sub-label-container" style="vertical-align:top">
+              <input type="text" class="form-textbox validate[required, limitDate, validateLiteDate]" id="lite_mode_7" size="12" data-maxlength="12" data-age="" required="" data-format="mmddyyyy" data-seperator="-" placeholder="mm-dd-yyyy" />
+              <label class="form-sub-label" for="lite_mode_7" id="sublabel_litemode" style="min-height:13px">  </label>
+            </span>
+            <span class="form-sub-label-container" style="vertical-align:top">
+              <label class="form-sub-label" for="input_7_pick" style="min-height:13px">  </label>
+            </span>
+          </div>
+        </div>
+      </li>
+      <li class="form-line" data-type="control_datetime" id="id_9">
+        <label class="form-label form-label-top form-label-auto" id="label_9" for="lite_mode_9"> Requested Completed Date </label>
+            <span class="form-sub-label-container" style="vertical-align:top">
+              <input type="text" class="form-textbox validate[limitDate, validateLiteDate]" id="lite_mode_9" size="12" data-maxlength="12" data-age="" data-format="mmddyyyy" data-seperator="-" placeholder="mm-dd-yyyy" />
+            </span>
+            <span class="form-sub-label-container" style="vertical-align:top">
+              <label class="form-sub-label" for="input_9_pick" style="min-height:13px">  </label>
+            </span>
+      </li>
+      <li class="form-line form-line-column form-col-1 form-line-column-clear" data-type="control_button" id="id_2">
+        <div id="cid_2" class="form-input-wide">
+          <div style="margin-left:156px" class="form-buttons-wrapper">
+            <button id="input_2" type="submit" class="form-submit-button" data-component="button">
+              Submit
+            </button>
+            <span>
+               
+            </span>
+            <button id="input_reset_2" type="reset" class="form-submit-reset" data-component="button">
+              Clear Form
+            </button>
+          </div>
+        </div>
+      </li>
+
+      <li style="clear:both">
+      </li>
+      <li style="display:none">
+        Should be Empty:
+        <input type="text" name="website" value="" />
+      </li>
+    </ul>
+  </div>
+
+  <input type="hidden" id="simple_spc" name="simple_spc" value="90543377125154" />
+  <script type="text/javascript">
+  document.getElementById("si" + "mple" + "_spc").value = "90543377125154-90543377125154";
+  </script>
+{% endblock content %}
