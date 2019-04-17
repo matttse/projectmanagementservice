@@ -1,15 +1,18 @@
-from gevent import monkey
-monkey.patch_all()
 from flask import session
 from flask_socketio import SocketIO, emit, join_room, leave_room
-socketio = SocketIO()
 from service_application_package.chat import myredis
+socketio = SocketIO()
+
 import json
 # socket chat
 @socketio.on('connect', namespace='/chats')
 def test_connect():
     print('Client connected')
 
+@socketio.on('connect_event', namespace='/chats')
+def refresh_message(message):
+    """ 服务端接受客户端发送的通信请求 """
+    emit('server_response', {'data': message['data']})
 
 @socketio.on('disconnect', namespace='/chats')
 def test_disconnect():
