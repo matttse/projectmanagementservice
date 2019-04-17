@@ -11,7 +11,7 @@ def test_connect():
 
 @socketio.on('connect_event', namespace='/chats')
 def refresh_message(message):
-    """ 服务端接受客户端发送的通信请求 """
+    """ The sever gets message from the client """
     emit('server_response', {'data': message['data']})
 
 @socketio.on('disconnect', namespace='/chats')
