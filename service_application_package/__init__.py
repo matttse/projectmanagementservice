@@ -4,7 +4,8 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_socketio import SocketIO
-from service_application_package.config import Config
+from flask_sockets import Sockets
+from service_application_package.config import Config, ChatBackend
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -12,6 +13,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 mail = Mail()
+sockets = Sockets(app)
 
 
 def create_app(config_class=Config):
@@ -24,6 +26,8 @@ def create_app(config_class=Config):
     mail.init_app(application)
     from service_application_package.chat.routes import socketio
     socketio.init_app(application)
+    chats = ChatBackend()
+    chats.start()
 
     from service_application_package.users.routes import users
     from service_application_package.projects.routes import projects
