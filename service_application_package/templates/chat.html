@@ -126,8 +126,8 @@
     }
     //Get the data parsing population from redis
     function fillData() {
-         //fill chat record
-         var recordList = {{ record|tojson }} //use `|tojson` to process data from flask
+        //fill chat record
+        var recordList = {{ record|tojson }} //use `|tojson` to process data from flask
         recordList.forEach(v => {
             data = JSON.parse(v)
             scrollTxt("【 " + data.username + " 】 - " + data.time + "\n\t" + data.message)
