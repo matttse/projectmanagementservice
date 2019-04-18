@@ -155,7 +155,7 @@
     var __main = function () {
         //fill data from redis
         fillData()
-
+        var namespace = '/chats'
         var url = `wss://${document.domain}${namespace}`
         console.log(url)
         socket = io.connect(url, {})
