@@ -8,7 +8,7 @@
                 <div class="panel-heading">
                     <div class="input-group">
                         <select class="form-control" id="chat_room_select">
-                            <option>{{ room }}</option>
+                            <option>Public</option>
                         </select>
                         <span class="input-group-btn">
                             <button class="btn btn-primary" type="button" id="id-join" data-toggle="modal" data-target="#join_room">Join Room<span
@@ -126,14 +126,14 @@
     }
     //Get the data parsing population from redis
     function fillData() {
-         //fill chat record
-         var recordList = {{ record | tojson }}; //use `|tojson` to process data from flask
+        //fill chat record
+        var recordList = {{ record|tojson }} //use `|tojson` to process data from flask
         recordList.forEach(v => {
             data = JSON.parse(v)
             scrollTxt("【 " + data.username + " 】 - " + data.time + "\n\t" + data.message)
         });
         //fill channel to select option
-        var channelList = {{ channel | tojson }};
+        var channelList = {{ channel|tojson}}
         getChannel(channelList)
     }
     //Populates chat channel data to select
