@@ -157,9 +157,10 @@
         fillData()
 
         var namespace = '/chats'
-        var url = ''//todo
-        socket = io.connect(url, { transports: ['websocket'] })
-        
+        var url = `wss://${document.domain}${namespace}`
+		console.log(url)
+        socket = io.connect(url, {})
+		console.log(socket)
         //connected
         socket.on('connect', function () {
             console.log('web connected')
