@@ -155,9 +155,12 @@
     var __main = function () {
         //fill data from redis
         fillData()
-        var namespace = '/chats'
-        var url = `ws://${document.domain}:${location.port}${namespace}`
-        socket = io.connect(url, { transports: ['websocket'] })
+
+        var url = `wss://${document.domain}${namespace}`
+        console.log(url)
+        socket = io.connect(url, {})
+        console.log(socket)
+        
         //connected
         socket.on('connect', function () {
             console.log('web connected')
@@ -174,6 +177,7 @@
         })
         //join room connect socket
         socket.emit('join', "", function () {
+
         })
         //Receive user join message
         socket.on('join', function (data) {
@@ -221,6 +225,7 @@
             }else{
                 alert("Password error, failure to join chat room")
             }
+
         });
         //Send a message by button
         $("#id-send").click(function () {
