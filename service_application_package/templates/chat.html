@@ -165,12 +165,12 @@
         socket.on('connect', function () {
             console.log('web connected')
         })
-        window.onbeforeunload = function () {
-            //leave room
-            socket.emit('leave', "", function () {
-            })
-            return "Are you sure you want to leave";
-        }
+        // window.onbeforeunload = function () {
+        //     //leave room
+        //     socket.emit('leave', "", function () {
+        //     })
+        //     return "Are you sure you want to leave";
+        // }
         //Get all the rooms
         socket.on('create', function (data) {
             getChannel(data)
