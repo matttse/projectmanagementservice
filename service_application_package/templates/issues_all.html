@@ -1,9 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
    <div class="panel panel-default">
-  <h2 class="panel-heading">Issue List</h2>
+  <h2 class="panel-heading" style="padding-left: 30px">Issue List</h2>
+         <div style="display: inline-block">
+       <nav class="navbar navbar-light bg-light">
+            <form class="form-inline"  action = "{{ url_for('issues.issue_search') }}" method="get">
+    <input class="form-control mr-sm-2"  placeholder="Search"  name = "Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav>
+    </div>
+    <div style="display: inline-block; float: right">
         <a role="button"  class="btn btn-secondary btn-lg" style = "float: right;" href="{{ url_for('issues.new_issue') }}">New Issue</a>
-
+    </div>
 
 
   {% if projects|length > 0 %}
@@ -25,41 +34,19 @@
         {% for issue in issues %}
             <tbody>
             <th>{{ issue.id - 1 }}</th>
-            <td><a href="#">{{issue.title}}</td>
+            <td><a href="/issues/<int:issue_id>/update">{{issue.title}}</td>
             <td>{{ issue.open_by }}</td>
             <td>{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
             <td>{{ issue.completed_date}}</td>
             <td>{{ issue.priority }}</td>
+            <td><button type="button" class="btn btn-outline-danger">Delete</button></td>
 
             </tbody>
-{#          <article class="media content-section">#}
-{#            <div class="media-body">#}
-{#              <div class="article-metadata">#}
-{#                <small class="text-muted">{{ issue.issue_date.strftime('%Y-%m-%d') }}</small>#}
-{#              </div>#}
-{#              <div class="row justify-content-between">#}
-{#                <div class="col">Description333:#}
-{#                  <p class="article-content">{{ issue.issue_description }}</p>#}
-{#                </div>#}
-{#                <div class="col">Priority1212121:#}
-{#                  <p class="article-content">{{ issue.priority }}</p>#}
-{#                </div>#}
-{#                <div class="col">Open_by:#}
-{#                  <p class="article-content">{{ issue.open_by }}</p>#}
-{#                </div>#}
-{#                <div class="col">Project:#}
-{#                  <p class="article-content">{{ issue.project_id }}</p>#}
-{#                </div>#}
-{#              </div>#}
-{#            </div>#}
-{#            </div>#}
-{#          </article>#}
         {% endfor %}
         </table>
       {% else %}
         <div class="alert alert-secondary">No Issues Found</div>
       {% endif %}
-{#        <a id="add-project-btn" class="btn btn-primary" href="{{ url_for('issues.new_issue') }}"><strong>Add Issue</strong></a>    #}
   {% else %}
     <div class="alert alert-secondary">No Projects to Add Issues</div>
   {% endif %}
