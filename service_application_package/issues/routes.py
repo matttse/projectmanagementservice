@@ -21,6 +21,7 @@ def new_issue():
         issue_description=form.issue_description.data,
         issue_date=form.issue_date.data,
         priority=form.priority.data,
+        #complete_before = form.complete_before.data,
         completed_date=form.completed_date.data,
         open_by=form.opened_by.data,
         project_id=form.project.data)
@@ -51,18 +52,33 @@ def update_issue(issue_id):
     issue = Issue.query.get_or_404(issue_id)
     form = IssueForm()
     if form.validate_on_submit():
-        issue = Issue(title=form.title.data,
-        issue_description=form.issue_description.data,
-        issue_date=form.issue_date.data,
-        priority=form.priority.data,
-        completed_date=form.completed_date.data,
-        open_by=form.opened_by.data,
-        project_id=form.project.data)
+        issue.title=form.title.data
+        issue.issue_description=form.issue_description.data
+        issue.issue_date=form.issue_date.data
+        issue.priority=form.priority.data
+        #complete_before = form.complete_before.data,
+        issue.completed_date=form.completed_date.data
+        issue.open_by=form.opened_by.data
+        issue.project_id=form.project.data
         db.session.commit()
         flash('Your issue has been updated!', 'success')
         return redirect(url_for('issues.list_issues', issue_id=issue.id))
     elif request.method == 'GET':
         form.title.data = issue.title
-        form.content.data = issue.content
+        form.issue_description.data = issue.issue_description
+        form.issue_date.data = issue.issue_date
+        form.priority.data = issue.priority
+        form.completed_date.data = issue.completed_date
+        form.opened_by.data = issue.open_by
+        form.project.data = issue.project_id
     return render_template('create_issue.html', title='Update issue',
                            form=form, legend='Update issue')    
+
+@issues.route("/issues/<int:issue_id>/delete", methods=['POST'])
+@login_required
+def delete_issue(issue_id):
+    issue = Issue.query.filter_by(id=issue_id).first()
+    db.session.delete(issue)
+    db.session.commit()
+    flash('Your issue has been deleted!', 'success')
+    return redirect(url_for('issues.list_issues', issue_id=issue_id))
