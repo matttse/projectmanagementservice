@@ -81,7 +81,7 @@ def issue_search():
     projects = Project.query.all()
     users = User.query.all()
     if issues:
-        return render_template('issues_all.html',  form=form, title='issue', legend="New Issue", issues=issues, projects=projects, users=users)
+        return render_template('issues_all.html', form=form, title='issue', legend="New Issue", issues=issues, projects=projects, users=users)
     else:
         flash('Keyword Not Found', 'danger')
         url_list = url_for('issues.list_issues')

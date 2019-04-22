@@ -7,8 +7,8 @@ from datetime import datetime
 class IssueForm(FlaskForm):
     title = StringField('Issue Title', validators=[DataRequired()])
     issue_description = TextAreaField('Issue Description', validators=[DataRequired()])
-    issue_date = DateField('Issue Date', format='%m/%d/%Y', validators=[DataRequired()], default=datetime.today)
-    priority = SelectField('Priority', choices = [('nice to have','Nice to have'),('important','Important'),('urgent','Urgent'),('done','Done')], validators=[DataRequired()])
+    issue_date = DateField('Opened Date', format='%m/%d/%Y', validators=[DataRequired()], default=datetime.today)
+    priority = SelectField('Priority', choices = [('nice to do','Nice to do'),('important','Important'),('urgent','Urgent'),('closed','Closed')], validators=[DataRequired()])
     completed_date = DateField('Completed Date', format='%m/%d/%Y', validators=(validators.Optional(),))
     opened_by = SelectField('Opened By', validators=[DataRequired()], coerce=int)
     project = SelectField('Project Name', validators=[DataRequired()], coerce=int)
