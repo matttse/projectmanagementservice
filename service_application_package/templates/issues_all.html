@@ -37,27 +37,28 @@ ul{
     <table class="table table-striped">
 
       <thead>
-      <tr>
-        <th style="line-height:50px;text-align:center">#</th>
-        <th style="line-height:50px">Title</th>
-        <th style="line-height:50px;text-align:center">Author</th>
-        <th style="line-height:50px;text-align:center">Date</th>
-        <th style="line-height:50px;text-align:center">Complete Before</th>
-        <th style="line-height:50px;text-align:center">Priority</th>
-    </tr>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Project</th>
+          <th>Author</th>
+          <th>Issue Date</th>
+          <th>Priority</th>
+        </tr>
       </thead>
 
     {% if issues|length > 0 %}
         {% for issue in issues %}
-            <tbody>
-            <th style="line-height:50px;text-align:center"><li></li></th>
-            <td style="line-height:50px"><a href="/issues/<int:issue_id>/update">{{issue.title}}</td>
+          <tbody>
+           <th style="line-height:50px;text-align:center"><li></li></th>
+            <td><a class="article-title" href="{{url_for('issues.update_issue', issue_id=issue.id)}}">{{ issue.title }}</a></td>
             <td style="line-height:50px;text-align:center">{{ issue.open_by }}</td>
             <td style="line-height:50px;text-align:center">{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
             <td style="line-height:50px;text-align:center">{{ issue.completed_date}}</td>
             <td style="line-height:50px;text-align:center">{{ issue.priority }}</td>
-            <td style="line-height:50px;text-align:center"><button type="button" class="btn btn-outline-danger">Delete</button></td>
-            </tbody>
+            <td><form action="{{url_for('issues.delete_issue', issue_id=issue.id)}}" method= "POST"><button class="btn btn-outline-danger" type="submit" value="Delete">Delete</button>
+            </td>    
+          </tbody>
         {% endfor %}
         </table>
       {% else %}
