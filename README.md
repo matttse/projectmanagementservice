@@ -28,10 +28,9 @@ virtualenv [env name]
 source [env name]/bin/activate
 
 ```
-
-run to ensure libraries are installed
+open requirements.txt to ensure libraries are installed, run
 ```
-pip install flask flask_sqlalchemy flask_bcrypt flask_login flask_mail flask_wtf Pillow pymysql
+pip install [libraries in requirements file]
 
 ```
 
