@@ -78,7 +78,7 @@ def issue_search():
     if issues:
         return render_template('issues_all.html',  form=form, title='issue', legend="New Issue", issues=issues, projects=projects, users=users)
     else:
-        flash('Keyword Not Found')
+        flash('Keyword Not Found', 'danger')
         url_list = url_for('issues.list_issues')
         return redirect(url_list)
 
