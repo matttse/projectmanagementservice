@@ -38,8 +38,6 @@ def project(project_id):
 @login_required
 def update_project(project_id):
     project = Project.query.get_or_404(project_id)
-    if project.author != current_user:
-        abort(403)
     form = ProjectForm()
     if form.validate_on_submit():
         project.title = form.title.data
@@ -58,8 +56,6 @@ def update_project(project_id):
 @login_required
 def delete_project(project_id):
     project = Project.query.get_or_404(project_id)
-    if project.author != current_user:
-        abort(403)
     db.session.delete(project)
     db.session.commit()
     flash('Your project has been deleted!', 'success')

@@ -41,6 +41,7 @@ class Project(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    status = db.Column(db.Text, nullable=False, default='new')
 
     def __repr__(self):
         return f"Project('{self.title}', '{self.date_posted}', '{self.id}')"
@@ -51,6 +52,7 @@ class Requirement(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    status = db.Column(db.Text, nullable=False, default='new')
 
     def __repr__(self):
         return f"Requirement('{self.title}', '{self.date_posted}')"
@@ -63,6 +65,7 @@ class Story(db.Model):
     status = db.Column(db.Text, nullable=False)
     requirement_id = db.Column(db.Integer, db.ForeignKey('requirement.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    assigned_to = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
         return f"Story('{self.title}', '{self.date_posted}')"
