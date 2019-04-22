@@ -21,7 +21,6 @@ def new_issue():
         issue_description=form.issue_description.data,
         issue_date=form.issue_date.data,
         priority=form.priority.data,
-        #complete_before = form.complete_before.data,
         completed_date=form.completed_date.data,
         open_by=form.opened_by.data,
         project_id=form.project.data)
@@ -56,7 +55,6 @@ def update_issue(issue_id):
         issue.issue_description=form.issue_description.data
         issue.issue_date=form.issue_date.data
         issue.priority=form.priority.data
-        #complete_before = form.complete_before.data,
         issue.completed_date=form.completed_date.data
         issue.open_by=form.opened_by.data
         issue.project_id=form.project.data
