@@ -1,19 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-  <div class="panel panel-default">
+   <div class="panel panel-default">
   <h2 class="panel-heading" style="padding-left: 15px">Issue List</h2>
-    <div style="display: inline-block">
-      <nav class="navbar navbar-light bg-light">
-        <form class="form-inline"  action = "{{ url_for('issues.issue_search') }}" method="get">
-          <input class="form-control mr-sm-2"  placeholder="Search"  name = "Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </nav>
+         <div style="display: inline-block">
+       <nav class="navbar navbar-light bg-light">
+            <form class="form-inline"  action = "{{ url_for('issues.issue_search') }}" method="get">
+    <input class="form-control mr-sm-2"  placeholder="Search"  name = "Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav>
     </div>
     <div style="display: inline-block; float: right">
-        <a role="button"  class="btn btn-outline-info" style = "float: right;" href="{{ url_for('issues.new_issue') }}">New Issue</a>
+        <a role="button"  class="btn btn-secondary btn-lg" style = "float: right;" href="{{ url_for('issues.new_issue') }}">New Issue</a>
     </div>
-
 <style>
 body{
     counter-reset: num;
@@ -39,28 +38,27 @@ ul{
 
       <thead>
         <tr>
-          <th style="line-height:20px;text-align:center">#</th>
-          <th style="line-height:20px;">Title</th>
-          <th style="line-height:20px;text-align:center">Story</th>
-          <th style="line-height:20px;text-align:center">Opened By</th>
-          <th style="line-height:20px;text-align:center">Opened Date</th>
-          <th style="line-height:20px;text-align:center">Priority</th>
+          <th>#</th>
+          <th>Title</th>
+          <th>Story</th>
+          <th>Opened By</th>
+          <th>Opened Date</th>
+          <th>Priority</th>
         </tr>
       </thead>
 
     {% if issues|length > 0 %}
         {% for issue in issues %}
           <tbody>
-            <th style="line-height:20px;text-align:left"><li></li></th>
-            <td><a style="line-height:20px;color:blue" class="article-title" href="{{url_for('issues.update_issue', issue_id=issue.id)}}">{{ issue.title }}</a></td>
-            <td style="line-height:20px;text-align:center">{{ issue.project }}</td>
-            <td style="line-height:20px;text-align:center">{{ issue.open_by }}</td>
-            <td style="line-height:20px;text-align:center">{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
-            <td style="line-height:20px;text-align:center">{{ issue.priority }}</td>
-            <td><button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteModal_{{issue.id}}">Delete</button></td>
+            <th style="line-height:20px;text-align:left">{{ issue.id }}</th>
+            <td><a class="article-title" href="{{url_for('issues.update_issue', issue_id=issue.id)}}">{{ issue.title }}</a></td>
+            <td>{{ issue.project }}</td>
+            <td>{{ issue.open_by }}</td>
+            <td>{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ issue.priority }}</td>
+            <td><button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteModal_{{ issue.id }}">Delete</button></td>    
           </tbody>
-
-          <!-- Modal -->
+        <!-- Modal -->
         <div class="modal fade" id="deleteModal_{{ issue.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -71,23 +69,23 @@ ul{
                 </button>
               </div>
               <div class="modal-footer">
-                <form id="delete_{{ issue.id }}" action="{{ url_for('issues.delete_issue', issue_id=issue.id) }}" method="POST">
-                    <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form id="delete_{{ issue.id }}" action="{{url_for('issues.delete_issue', issue_id=issue.id)}}" method= "POST">
+                  <input class="btn btn-danger" type="submit" value="Delete">
                 </form>
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
         </div>  
         {% endfor %}
         </table>
-    {% else %}
-      <div class="alert alert-secondary">No Issues Found</div>
-    {% endif %}
+      {% else %}
+        <div class="alert alert-secondary">No Issues Found</div>
+      {% endif %}
   {% else %}
     <div class="alert alert-secondary">No Projects to Add Issues</div>
   {% endif %}
    </div>
 
-{% endblock content %}
+  {% endblock content %}
 
