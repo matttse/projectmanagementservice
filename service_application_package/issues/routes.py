@@ -5,6 +5,7 @@ from service_application_package import db
 from service_application_package.models import Issue, Project, User
 from service_application_package.issues.forms import IssueForm
 
+
 issues = Blueprint('issues', __name__)
 
 # 
@@ -65,4 +66,24 @@ def update_issue(issue_id):
         form.title.data = issue.title
         form.content.data = issue.content
     return render_template('create_issue.html', title='Update issue',
-                           form=form, legend='Update issue')    
+                           form=form, legend='Update issue')
+
+@issues.route("/issues/Search/")
+def issue_search():
+    form = IssueForm()
+    search_content = request.args.get("Search")
+    issues = Issue.query.filter(Issue.title.contains(search_content)).all()
+    projects = Project.query.all()
+    users = User.query.all()
+    if issues:
+        return render_template('issues_all.html',  form=form, title='issue', legend="New Issue", issues=issues, projects=projects, users=users)
+    else:
+        flash('Keyword Not Found', 'danger')
+        url_list = url_for('issues.list_issues')
+        return redirect(url_list)
+
+
+
+
+
+
