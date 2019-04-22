@@ -37,28 +37,47 @@ ul{
     <table class="table table-striped">
 
       <thead>
-        <tr>
-          <th>#</th>
-          <th>Title</th>
-          <th>Project</th>
-          <th>Author</th>
-          <th>Issue Date</th>
-          <th>Priority</th>
-        </tr>
+      <tr>
+        <th style="line-height:50px;text-align:center">#</th>
+        <th style="line-height:50px">Title</th>
+        <th style="line-height:50px;text-align:center">Author</th>
+        <th style="line-height:50px;text-align:center">Date</th>
+        <th style="line-height:50px;text-align:center">Complete Before</th>
+        <th style="line-height:50px;text-align:center">Priority</th>
+    </tr>
       </thead>
 
     {% if issues|length > 0 %}
         {% for issue in issues %}
           <tbody>
-           <th style="line-height:50px;text-align:center"><li></li></th>
+            <th>{{ issue.id }}</th>
             <td><a class="article-title" href="{{url_for('issues.update_issue', issue_id=issue.id)}}">{{ issue.title }}</a></td>
-            <td style="line-height:50px;text-align:center">{{ issue.open_by }}</td>
-            <td style="line-height:50px;text-align:center">{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
-            <td style="line-height:50px;text-align:center">{{ issue.completed_date}}</td>
-            <td style="line-height:50px;text-align:center">{{ issue.priority }}</td>
-            <td><form action="{{url_for('issues.delete_issue', issue_id=issue.id)}}" method= "POST"><button class="btn btn-outline-danger" type="submit" value="Delete">Delete</button>
+            <td>{{ issue.project }}</td>
+            <td>{{ issue.open_by }}</td>
+            <td>{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ issue.priority }}</td>
+            <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_{{ issue.id }}">Delete</button>
             </td>    
           </tbody>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal_{{ issue.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Issue</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form id="delete_{{ issue.id }}" action="{{url_for('issues.delete_issue', issue_id=issue.id)}}" method= "POST">
+                  <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>  
         {% endfor %}
         </table>
       {% else %}
