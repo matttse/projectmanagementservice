@@ -29,7 +29,7 @@
                   <div class="container mx-auto my-auto py-1 px-1">
                     <a class="btn btn-secondary" href="{{ url_for('requirements.list_requirements', project_id=project.id) }}">Requirements</a>
                   </div>
-                  {% if project.author == current_user %}
+                  {% if project.author  %}
                     <div class="container mx-auto my-auto py-1 px-1">
                       <a class="btn btn-secondary" href="{{ url_for('projects.update_project', project_id=project.id) }}">Update</a>
                     </div>                  
