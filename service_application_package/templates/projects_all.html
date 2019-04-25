@@ -12,17 +12,20 @@
                 </div>
                 <h2>              
                 <a class="article-title" href="{{ url_for('projects.update_project', project_id=project.id) }}">{{ project.title }}</a>
-            {% else %}
+              {% else %}
               <div class="mr-2">{{ project.author.username }}</div>
                 <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
               </div>
               <h2>              
               <div class="article-title">{{ project.title }}</div>
-            {% endif %}
+              {% endif %}
             </h2>
             <div class="row justify-content-between">
               <div class="col">
                 <p class="article-content">{{ project.content }}</p>
+              </div>
+              <div class="col">Percent Complete:
+                <p class="article-content">{{ doneList[loop.index0] }}</p>
               </div>
               <div class="col">
                 <div class="float-right">
