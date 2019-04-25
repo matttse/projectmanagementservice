@@ -2,7 +2,7 @@ from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
 from service_application_package import db
-from service_application_package.models import Requirement
+from service_application_package.models import Requirement, Story
 from service_application_package.requirements.forms import RequirementForm
 
 requirements = Blueprint('requirements', __name__)
@@ -34,8 +34,12 @@ def requirement(project_id, requirement_id):
 def list_requirements(project_id):
     form = RequirementForm()
     requirement_count = Requirement.query.filter_by(project_id=project_id).count()
+
     if requirement_count > 0:
         requirements = Requirement.query.filter_by(project_id=project_id)
+        for requirement in requirements:
+            stories = Story.query.filter_by(requirement_id=requirement.id)
+
     else:
         requirements = 0
     return render_template('requirements.html', 
