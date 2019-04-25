@@ -3,15 +3,19 @@
     <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
+            {% if project.author == current_user %}
               <a class="mr-2" href="{{ url_for('users.user_projects', username=project.author.username) }}">{{ project.author.username }}</a>
-              <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
-            </div>
-            <h2>
-              {% if project.author == current_user %}
+                <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
+              </div>
+              <h2>              
                 <a class="article-title" href="{{ url_for('projects.update_project', project_id=project.id) }}">{{ project.title }}</a>
-              {% else %}
-                <div class="article-title">{{ project.title }}</div>
-              {% endif %}
+            {% else %}
+              <div class="mr-2">{{ project.author.username }}</div>
+                <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
+              </div>
+              <h2>              
+              <div class="article-title">{{ project.title }}</div>
+            {% endif %}
             </h2>
             <div class="row justify-content-between">
               <div class="col">

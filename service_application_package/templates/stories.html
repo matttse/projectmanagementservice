@@ -31,8 +31,7 @@
                         <a class="btn btn-secondary" href="{{url_for('stories.update_story', project_id=project_id, requirement_id=requirement_id,story_id=story.id)}}">Story</a>
                       </div>             
                       <div class="container mx-auto my-auto py-1 px-1">
-                        <form action="{{ url_for('stories.delete_story', project_id=project_id, requirement_id=requirement_id, story_id=story.id) }}" method="POST">
-                        <input class="btn btn-danger" type="submit" value="Delete">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_{{ story.id }}">Delete</button>
                       </div>
                     </div>
               </div>
@@ -40,6 +39,25 @@
           </div>
           </div>
         </article>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal_{{ story.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Requirement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form id="delete_{{ story.id }}" action="{{ url_for('stories.delete_story', project_id=project_id, requirement_id=requirement_id, story_id=story.id) }}" method="POST">
+                  <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>  
       {% endfor %}
     {% else %}
       <div class="alert alert-secondary">No Stories Found</div>

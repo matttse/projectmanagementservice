@@ -86,7 +86,7 @@ def update_story(project_id, requirement_id, story_id):
 @stories.route("/projects/<int:project_id>/requirements/<int:requirement_id>/stories/<int:story_id>/delete", methods=['POST'])
 @login_required
 def delete_story(project_id, requirement_id,story_id):
-    story = Story.query.filter_by(id=story_id).first()
+    story = Story.query.get(story_id)
     db.session.delete(story)
     db.session.commit()
     flash('Your story has been deleted!', 'success')
