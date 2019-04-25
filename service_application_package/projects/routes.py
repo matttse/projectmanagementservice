@@ -4,6 +4,8 @@ from flask_login import current_user, login_required
 from service_application_package import db
 from service_application_package.models import Project
 from service_application_package.projects.forms import ProjectForm
+from service_application_package.models import Story
+import math
 
 projects = Blueprint('projects', __name__)
 
@@ -25,8 +27,23 @@ def new_project():
 def list_projects():
     form = ProjectForm()
     projects = Project.query.all()
+    doneCount = 0
+    total = 0
+    doneList = []
+
+    for proj in projects:
+        stories = Story.query.filter_by(project_id = proj.id)
+        for sto in stories:
+            if sto.status == 'done':
+                doneCount += 1
+            total += 1
+        percentDone = (doneCount / total) * 100
+        doneList.append(math.ceil(percentDone))
+        doneCount = 0
+        total = 0
+        
     return render_template('projects_all.html', 
-                           form=form, title='project', legend="New Project", projects=projects)
+                           form=form, title='project', legend="New Project", projects=projects, doneList = doneList)
 
 @projects.route("/project/<int:project_id>")
 def project(project_id):
