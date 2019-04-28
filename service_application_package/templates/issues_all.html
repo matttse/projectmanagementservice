@@ -51,7 +51,7 @@ ul{
     {% if issues|length > 0 %}
         {% for issue in issues %}
           <tbody>
-            <th style="line-height:20px;text-align:left"><li></li></th>
+            <th style="line-height:20px;text-align:left">{{issue.id }}</th>
             <td><a style="line-height:20px;color:blue" class="article-title" href="{{url_for('issues.update_issue', issue_id=issue.id)}}">{{ issue.title }}</a></td>
             <td style="line-height:20px;text-align:center">{{ issue.open_by }}</td>
             <td style="line-height:20px;text-align:center">{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
