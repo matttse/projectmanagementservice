@@ -12,32 +12,29 @@
                 </div>
                 <h2>              
                 <a class="article-title" href="{{ url_for('projects.update_project', project_id=project.id) }}">{{ project.title }}</a>
-              {% else %}
+            {% else %}
               <div class="mr-2">{{ project.author.username }}</div>
                 <small class="text-muted">{{ project.date_posted.strftime('%Y-%m-%d') }}</small>
               </div>
               <h2>              
               <div class="article-title">{{ project.title }}</div>
-              {% endif %}
+            {% endif %}
             </h2>
             <div class="row justify-content-between">
               <div class="col">
                 <p class="article-content">{{ project.content }}</p>
-              </div>
-              <div class="col">Percent Complete:
-                <p class="article-content">{{ doneList[loop.index0] }}</p>
               </div>
               <div class="col">
                 <div class="float-right">
                   <div class="container mx-auto my-auto py-1 px-1">
                     <a class="btn btn-secondary" href="{{ url_for('requirements.list_requirements', project_id=project.id) }}">Requirements</a>
                   </div>
-                  {% if project.author  %}
+                  {% if project.author == current_user %}
                     <div class="container mx-auto my-auto py-1 px-1">
                       <a class="btn btn-secondary" href="{{ url_for('projects.update_project', project_id=project.id) }}">Update</a>
                     </div>                  
                     <div class="container mx-auto my-auto py-1 px-1">
-                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_{{ project.id }}">Delete</button>
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
                     </div>
                   {% endif %}
                 </div>
@@ -47,7 +44,7 @@
           </div>
         </article>
         <!-- Modal -->
-        <div class="modal fade" id="deleteModal_{{ project.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -58,7 +55,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <form id="deleteproject_{{ project.id }}" action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
+                <form action="{{ url_for('projects.delete_project', project_id=project.id) }}" method="POST">
                   <input class="btn btn-danger" type="submit" value="Delete">
                 </form>
               </div>

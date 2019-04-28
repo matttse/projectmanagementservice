@@ -4,8 +4,6 @@ from flask_login import current_user, login_required
 from service_application_package import db
 from service_application_package.models import Project
 from service_application_package.projects.forms import ProjectForm
-from service_application_package.models import Story
-import math
 
 projects = Blueprint('projects', __name__)
 
@@ -27,26 +25,8 @@ def new_project():
 def list_projects():
     form = ProjectForm()
     projects = Project.query.all()
-    doneCount = 0
-    total = 0
-    doneList = []
-
-    for proj in projects:
-        stories = Story.query.filter_by(project_id = proj.id)
-        for sto in stories:
-            if sto.status == 'done':
-                doneCount += 1
-            total += 1
-        if(total == 0):
-            doneList.append(0)
-        else:
-            percentDone = (doneCount / total) * 100
-            doneList.append(math.ceil(percentDone))
-        doneCount = 0
-        total = 0
-        
     return render_template('projects_all.html', 
-                           form=form, title='project', legend="New Project", projects=projects, doneList = doneList)
+                           form=form, title='project', legend="New Project", projects=projects)
 
 @projects.route("/project/<int:project_id>")
 def project(project_id):
@@ -58,6 +38,8 @@ def project(project_id):
 @login_required
 def update_project(project_id):
     project = Project.query.get_or_404(project_id)
+    if project.author != current_user:
+        abort(403)
     form = ProjectForm()
     if form.validate_on_submit():
         project.title = form.title.data
@@ -76,6 +58,8 @@ def update_project(project_id):
 @login_required
 def delete_project(project_id):
     project = Project.query.get_or_404(project_id)
+    if project.author != current_user:
+        abort(403)
     db.session.delete(project)
     db.session.commit()
     flash('Your project has been deleted!', 'success')

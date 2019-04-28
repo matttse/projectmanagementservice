@@ -32,30 +32,6 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 20px;
 }
 
-.content-section-new {
-  background: lightblue;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
-}
-
-.content-section-inprogress {
-  background: lightyellow;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
-}
-
-.content-section-done {
-  background: lightgreen;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
-}
-
 .article-title {
   color: #444444;
 }

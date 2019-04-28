@@ -28,9 +28,10 @@ virtualenv [env name]
 source [env name]/bin/activate
 
 ```
-open requirements.txt to ensure libraries are installed, run
+
+run to ensure libraries are installed
 ```
-pip install [libraries in requirements file]
+pip install flask flask_sqlalchemy flask_bcrypt flask_login flask_mail flask_wtf Pillow pymysql redis gevent flask_socketio
 
 ```
 
@@ -40,7 +41,6 @@ EMAIL_USERNAME
 EMAIL_PASS
 SQLALCHEMY_DATABASE_URI
 SECRET_KEY
-REDIS_URL
 ```
 
 Static Files
@@ -56,10 +56,6 @@ Directory: service_application_package/static/profile_pics/
 deploying to devlopment on server (needs local OS environ vars export/set)
 ```
 python application.py
-```
-otherwise use for test and production servers
-```
-gunicorn application:application
 ```
 
 *Note: you may need to initialize the db, please refer to http://flask-sqlalchemy.pocoo.org/2.3/quickstart/ for more information

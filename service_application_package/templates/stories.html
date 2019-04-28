@@ -3,11 +3,7 @@
 <div class="container mx-auto my-auto py-3 px-1">
   {% if stories != 0 %}
       {% for story in stories %}
-        <article {% if story.status == 'new' %} class="media content-section-new"
-                 {% elif story.status == 'in-progress' %} class="media content-section-inprogress"
-                 {% elif story.status == 'done' %} class="media content-section-done"
-                 {% else %} class="media content-section" 
-                 {% endif %} >
+        <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata" >
               <small class="text-muted">{{ story.date_posted.strftime('%Y-%m-%d') }}</small>
@@ -21,9 +17,6 @@
               </div>
               <div class="col">Status:
                 <p class="article-content">{{ story.status }}</p>
-              </div>
-              <div class="col">Assigned to:
-                <p class="article-content">{{ story.assigned_to }}</p>
               </div>
               <div class="col">
                   <div class="float-right">
@@ -44,7 +37,7 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Delete Story</h5>
+                <h5 class="modal-title" id="deleteModalLabel">Delete Requirement</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>

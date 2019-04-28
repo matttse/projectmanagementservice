@@ -20,8 +20,7 @@ def new_story(project_id, requirement_id):
                     , content=form.content.data
                     , project_id=project_id
                     ,requirement_id=requirement_id
-                    ,status=form.status.data
-                    ,assigned_to=form.assigned_to.data)
+                    ,status=form.status.data)
         db.session.add(story)
         db.session.commit()
         flash('Your story has been created!', 'success')
