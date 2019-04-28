@@ -52,8 +52,11 @@ def list_requirements(project_id):
             if sto.status == 'done':
                 doneCount += 1
             total += 1
-        percentDone = (doneCount / total) * 100
-        doneList.append(math.ceil(percentDone))
+        if(total == 0):
+            doneList.append(0)
+        else:
+            percentDone = (doneCount / total) * 100
+            doneList.append(math.ceil(percentDone))
         doneCount = 0
         total = 0
 
