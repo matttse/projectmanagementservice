@@ -74,12 +74,14 @@ def update_story(project_id, requirement_id, story_id):
         story.title = form.title.data
         story.content = form.content.data
         story.status = form.status.data
+        story.assigned_to = form.assigned_to.data
         db.session.commit()
         flash('Your story has been updated!', 'success')
         return redirect(url_for('stories.list_stories', requirement_id=requirement_id, project_id=project_id, story=story.id))
     elif request.method == 'GET':
         form.title.data = story.title
         form.content.data = story.content
+        form.status.data = story.status
     return render_template('create_story.html', title='Update story',
                            form=form, legend='Update story')
 

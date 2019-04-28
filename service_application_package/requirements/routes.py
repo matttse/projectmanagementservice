@@ -41,24 +41,22 @@ def list_requirements(project_id):
     total = 0
     if requirement_count > 0:
         requirements = Requirement.query.filter_by(project_id=project_id)
+
+        for id1, req in enumerate(requirements):
+            stories = Story.query.filter_by(requirement_id=req.id)
+            for id2, sto in enumerate(stories):
+                if sto.status == 'done':
+                    doneCount += 1
+                total += 1
+            if(total == 0):
+                doneList.append(0)
+            else:
+                percentDone = (doneCount / total) * 100
+                doneList.append(math.ceil(percentDone))
+            doneCount = 0
+            total = 0
     else:
         requirements = 0
-
-    stories_count = Story.query.filter_by(requirement_id=requirements[0].id).count()
-
-    for id1, req in enumerate(requirements):
-        stories = Story.query.filter_by(requirement_id=req.id)
-        for id2, sto in enumerate(stories):
-            if sto.status == 'done':
-                doneCount += 1
-            total += 1
-        if(total == 0):
-            doneList.append(0)
-        else:
-            percentDone = (doneCount / total) * 100
-            doneList.append(math.ceil(percentDone))
-        doneCount = 0
-        total = 0
 
     return render_template('requirements.html', 
                            form=form, title='requirement', legend="New requirement", requirements=requirements, project_id=project_id, doneList = doneList )
