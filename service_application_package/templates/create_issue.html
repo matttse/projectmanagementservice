@@ -20,6 +20,21 @@
                         {{ form.project(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                
+                <div class="form-group">
+                    {{ form.story.label }}
+                    {% if form.story.errors %}
+                        {{ form.story(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.story.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.story(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
                 <div class="form-group">
                     {{ form.issue_date.label(class="form-control-label") }}
                     {% if form.issue_date.errors %}

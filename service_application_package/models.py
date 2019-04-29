@@ -65,7 +65,7 @@ class Story(db.Model):
     status = db.Column(db.Text, nullable=False)
     requirement_id = db.Column(db.Integer, db.ForeignKey('requirement.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
-    assigned_to = db.Column(db.Text, nullable=True)
+    assigned_to = db.Column(db.Text, nullable=True, default="unassigned")
 
     def __repr__(self):
         return f"Story('{self.title}', '{self.date_posted}')"
@@ -79,6 +79,7 @@ class Issue(db.Model):
     priority = db.Column(db.Text, nullable=False)
     completed_date = db.Column(db.DateTime, nullable=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    story_id = db.Column(db.Integer, db.ForeignKey('story.id'), nullable=False)
 
     def __repr__(self):
         return f"Issue('{self.title}', '{self.issue_date}')"

@@ -3,7 +3,9 @@ from flask import (render_template, url_for, flash,
 from flask_login import current_user, login_required
 from service_application_package import db
 from service_application_package.models import Requirement
+from service_application_package.models import Story
 from service_application_package.requirements.forms import RequirementForm
+import math
 
 requirements = Blueprint('requirements', __name__)
 
@@ -34,12 +36,30 @@ def requirement(project_id, requirement_id):
 def list_requirements(project_id):
     form = RequirementForm()
     requirement_count = Requirement.query.filter_by(project_id=project_id).count()
+    doneList = []
+    doneCount = 0
+    total = 0
     if requirement_count > 0:
         requirements = Requirement.query.filter_by(project_id=project_id)
+
+        for id1, req in enumerate(requirements):
+            stories = Story.query.filter_by(requirement_id=req.id)
+            for id2, sto in enumerate(stories):
+                if sto.status == 'done':
+                    doneCount += 1
+                total += 1
+            if(total == 0):
+                doneList.append(0)
+            else:
+                percentDone = (doneCount / total) * 100
+                doneList.append(math.ceil(percentDone))
+            doneCount = 0
+            total = 0
     else:
         requirements = 0
+
     return render_template('requirements.html', 
-                           form=form, title='requirement', legend="New requirement", requirements=requirements, project_id=project_id)
+                           form=form, title='requirement', legend="New requirement", requirements=requirements, project_id=project_id, doneList = doneList )
 
 @requirements.route("/projects/<int:project_id>/requirements/<int:requirement_id>", methods=['GET', 'POST'])
 def add_requirements(project_id, requirement_id):    
