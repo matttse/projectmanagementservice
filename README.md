@@ -31,7 +31,7 @@ source [env name]/bin/activate
 open requirements.txt to ensure libraries are installed, run
 ```
 pip install [libraries in requirements file]
-
+or pip install -r /path/to/requirements.txt
 ```
 
 Environment Variables required (default using smtp.google 587)
